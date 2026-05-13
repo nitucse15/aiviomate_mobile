@@ -1009,7 +1009,7 @@ color:white;
             "📈 Open Detailed Analytics",
             use_container_width=True,
         ):
-            st.switch_page("pages/7_Analytics.py")
+            st.switch_page("7_Analytics.py")
 
         # =========================
         # RESET DAILY CHECK-IN
