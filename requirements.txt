@@ -1,7 +1,7 @@
 streamlit
-openai
 pandas
-plotly
-reportlab
 numpy
+plotly
 opencv-python-headless
+altair
+reportlab
