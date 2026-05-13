@@ -10,13 +10,15 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 # =========================
-# 💪 WORKOUT
+# 💪 WORKOUT (UPDATED)
 # =========================
 def generate_workout(profile, progress):
 
+    illness = str(profile.get("illness", "")).strip().lower()
 
     prompt = f"""
-You are an elite fitness coach and recovery specialist.
+You are an elite AI fitness coach, rehabilitation specialist,
+mobility expert, and recovery trainer.
 
 Create a STRICTLY personalized 7-day workout plan.
 
@@ -25,6 +27,9 @@ USER PROFILE:
 
 PROGRESS DATA:
 {progress}
+
+HEALTH CONDITIONS:
+{illness}
 
 IMPORTANT RULES:
 
@@ -66,6 +71,7 @@ IMPORTANT RULES:
 7. ADVANCED:
 - Higher intensity
 - Complex movements
+- Athletic conditioning
 
 8. PREGNANT:
 - NO jumping
@@ -82,7 +88,27 @@ IMPORTANT RULES:
 10. INJURIES:
 - Avoid aggravating movements
 
+11. HEALTH CONDITIONS:
+If the user has any illness, injury, medical condition,
+mobility issue, fatigue issue, thyroid issue,
+heart issue, diabetes, PCOS, asthma,
+joint pain, obesity, anxiety or stress:
+
+- Avoid risky workouts
+- Suggest safe exercises
+- Prefer yoga, walking, stretching,
+low-impact training, mobility,
+recovery or beginner-friendly workouts when needed
+- Consider fatigue and recovery limitations
+- Avoid dangerous intensity recommendations
+- Keep workouts realistic and sustainable
+
+12. IF ILLNESS FIELD IS:
+NA / N/A / NONE / NO / blank
+→ Ignore illness completely
+
 FORMAT:
+
 Day 1:
 - Warm-up
 - Main Workout
@@ -91,25 +117,39 @@ Day 1:
 - Cool-down
 
 IMPORTANT:
-The plan MUST clearly align with the user's exact goal.
+The workout MUST feel highly personalized.
 Do NOT generate generic workouts.
+
+The tone should feel premium, motivating,
+modern and human-like.
+
+This is NOT medical advice.
+Only provide general wellness guidance.
 """
 
     res = client.chat.completions.create(
         model="gpt-4o-mini",
-        messages=[{"role": "user", "content": prompt}]
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ]
     )
 
     return res.choices[0].message.content
-
 
 # =========================
 # 🥗 DIET (UPDATED)
 # =========================
 def generate_diet(profile, progress, cuisine, food_type, skin_type, skin_goal):
 
+    illness = str(profile.get("illness", "")).strip().lower()
+
     prompt = f"""
-You are an expert sports nutritionist and wellness coach.
+You are an elite AI nutritionist,
+sports dietician, wellness expert,
+and recovery nutrition specialist.
 
 Create a STRICT personalized 7-day diet plan.
 
@@ -131,17 +171,22 @@ SKIN TYPE:
 SKIN GOAL:
 {skin_goal}
 
+HEALTH CONDITIONS:
+{illness}
+
 IMPORTANT RULES:
 
 1. FAT LOSS:
 - High protein
 - Moderate calorie deficit
 - Avoid excessive sugar
+- Satiety-focused meals
 
 2. MUSCLE GAIN:
 - High protein
 - Higher calories
 - Recovery-focused meals
+- Strength-support nutrition
 
 3. RUNNING:
 - Complex carbs
@@ -178,6 +223,32 @@ IMPORTANT RULES:
 - Fruits
 - Hydration
 
+10. HEALTH CONDITIONS:
+If user has:
+- Diabetes
+- Thyroid
+- PCOS
+- Heart issues
+- Cholesterol
+- High BP
+- Fatigue
+- Obesity
+- Acidity
+- Digestion issues
+- Stress/anxiety
+
+Then:
+- Suggest safer nutrition
+- Avoid harmful foods
+- Include balanced meals
+- Include recovery support
+- Include hydration guidance
+- Avoid extreme dieting
+
+11. IF ILLNESS FIELD IS:
+NA / N/A / NONE / NO / blank
+→ Ignore illness completely
+
 INCLUDE:
 - Morning drink
 - Breakfast
@@ -193,18 +264,31 @@ ALSO INCLUDE:
 - Foods to avoid
 - Skin-friendly foods
 - Recovery recommendations
+- Lifestyle suggestions
 
-The output MUST feel personalized to the user's profile.
-Do NOT generate generic diet plans.
+IMPORTANT:
+The plan MUST feel deeply personalized.
+
+Do NOT generate generic meal plans.
+
+Tone should feel premium,
+modern, motivating and human-like.
+
+This is NOT medical advice.
+Only provide general wellness guidance.
 """
 
     res = client.chat.completions.create(
         model="gpt-4o-mini",
-        messages=[{"role": "user", "content": prompt}]
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ]
     )
 
     return res.choices[0].message.content
-
 
 # =========================
 # 🧠 COACH
