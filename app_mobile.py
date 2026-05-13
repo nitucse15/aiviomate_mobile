@@ -739,28 +739,6 @@ elif page == "Dashboard":
     if not st.session_state.analytics_mode:
 
         # =========================
-        # HERO IMAGE
-        # =========================
-        st.image(
-            "https://images.unsplash.com/photo-1518611012118-696072aa579a",
-            use_container_width=True,
-        )
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        # =========================
-        # ANALYTICS BUTTON
-        # =========================
-        if st.button(
-            "📊 Open Performance Analytics",
-            use_container_width=True,
-        ):
-            st.session_state.analytics_mode = True
-            st.rerun()
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        # =========================
         # WELLNESS TIP CARD
         # =========================
         st.markdown(
@@ -792,6 +770,16 @@ movement and recovery daily.
 """,
             unsafe_allow_html=True,
         )
+
+        # =========================
+        # HERO IMAGE
+        # =========================
+        st.image(
+            "https://images.unsplash.com/photo-1518611012118-696072aa579a",
+            use_container_width=True,
+        )
+
+        st.markdown("<br>", unsafe_allow_html=True)
 
         # =========================
         # DAILY CHECK-IN
@@ -1010,6 +998,17 @@ color:white;
 """,
                 unsafe_allow_html=True,
             )
+        # =========================
+        # ANALYTICS BUTTON
+        # =========================
+        if st.button(
+            "📊 Open Performance Analytics",
+            use_container_width=True,
+        ):
+            st.session_state.analytics_mode = True
+            st.rerun()
+
+        st.markdown("<br>", unsafe_allow_html=True)
 
         # =========================
         # RESET DAILY CHECK-IN
