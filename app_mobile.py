@@ -232,6 +232,16 @@ p {
 """,
     unsafe_allow_html=True,
 )
+st.markdown(
+    """
+<style>
+img {
+    border-radius: 18px;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
 
 # =========================
 # SESSION STATE DEFAULTS
@@ -774,10 +784,13 @@ movement and recovery daily.
         # =========================
         # HERO IMAGE
         # =========================
-        st.image(
-            "https://images.unsplash.com/photo-1518611012118-696072aa579a",
-            use_container_width=True,
-        )
+        img_left, img_center, img_right = st.columns([1, 2.2, 1])
+
+        with img_center:
+            st.image(
+                "https://images.unsplash.com/photo-1517836357463-d25dfeac3438",
+                use_container_width=True,
+            )
 
         st.markdown("<br>", unsafe_allow_html=True)
 
@@ -809,54 +822,47 @@ movement and recovery daily.
         # =========================
         # EMOTIONAL HEALTH
         # =========================
-        st.markdown("### 😊 Emotional Health")
-        st.caption("How are you feeling today?")
+        st.markdown("## 😊 Emotional Health")
+
+        moods = [
+            ("😔", "Low", 2),
+            ("😐", "Okay", 5),
+            ("🙂", "Good", 8),
+            ("😄", "Great", 10),
+        ]
 
         mood_cols = st.columns(4)
-        moods = [("😔", "Low"), ("😐", "Okay"), ("🙂", "Good"), ("😄", "Great")]
 
-        for i, (emoji, label) in enumerate(moods):
+        for i, (emoji, label, score_value) in enumerate(moods):
+
             with mood_cols[i]:
-                if st.button(emoji, key=f"mood_{i}", use_container_width=True):
+
+                st.markdown(
+                    f"""
+    <div style="
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:8px;
+    color:white;
+    text-align:left;
+    ">
+    {label}
+    </div>
+    """,
+                    unsafe_allow_html=True,
+                )
+
+                if st.button(
+                    emoji,
+                    key=f"mood_{i}",
+                ):
                     st.session_state.mood = label
+                    st.session_state.mood_value = score_value
                     st.rerun()
 
-        st.success(f"Current Mood: {st.session_state.mood}")
-        st.markdown("<br>", unsafe_allow_html=True)
+        current_mood = st.session_state.get("mood", "Not Selected")
 
-        # =========================
-        # HYDRATION
-        # =========================
-        st.markdown("### 💧 Hydration")
-
-        water = st.session_state.water
-
-        st.markdown(
-            f'<h1 style="font-size:34px; color:white;">{water} / 8 glasses</h1>',
-            unsafe_allow_html=True,
-        )
-
-        st.progress(min(water / 8, 1.0))
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        b1, b2, b3 = st.columns(3)
-
-        with b1:
-            if st.button("➕ Drink Water", use_container_width=True):
-                if st.session_state.water < 8:
-                    st.session_state.water += 1
-                st.rerun()
-
-        with b2:
-            if st.button("➖ Remove Water", use_container_width=True):
-                if st.session_state.water > 0:
-                    st.session_state.water -= 1
-                st.rerun()
-
-        with b3:
-            if st.button("🔄 Reset Water", use_container_width=True):
-                st.session_state.water = 0
-                st.rerun()
+        st.caption(f"Current Mood: {current_mood}")
 
         # =========================
         # WELLNESS SCORE
@@ -879,7 +885,7 @@ movement and recovery daily.
         sleep_score = sleep * 10
         stress_score = (10 - stress) * 10 if stress > 0 else 0
         energy_score = energy * 10
-        water_score = water * 10
+        water_score = st.session_state.water * 10
         mood_score = mood_value * 10
 
         # =========================
@@ -890,7 +896,7 @@ movement and recovery daily.
                 sleep > 0,
                 stress > 0,
                 energy > 0,
-                water > 0,
+                st.session_state.water > 0,
                 mood_value > 0,
             ]
         )
@@ -912,8 +918,8 @@ movement and recovery daily.
                 values.append((10 - stress) * 10)
             if energy > 0:
                 values.append(energy * 10)
-            if water > 0:
-                values.append(water * 10)
+            if st.session_state.water > 0:
+                values.append(st.session_state.water * 10)
             if mood_value > 0:
                 values.append(mood_value * 10)
 
@@ -975,7 +981,7 @@ movement and recovery daily.
             tips.append("😴 Improve your sleep schedule")
         if stress > 7:
             tips.append("🧘 High stress detected today")
-        if water < 5:
+        if st.session_state.water < 5:
             tips.append("💧 Increase hydration")
         if energy < 5:
             tips.append("⚡ Prioritize recovery")
@@ -998,102 +1004,28 @@ color:white;
 """,
                 unsafe_allow_html=True,
             )
-        # =========================
-        # ANALYTICS BUTTON
-        # =========================
+
         if st.button(
-            "📊 Open Performance Analytics",
+            "📈 Open Detailed Analytics",
             use_container_width=True,
         ):
-            st.session_state.analytics_mode = True
-            st.rerun()
-
-        st.markdown("<br>", unsafe_allow_html=True)
+            st.switch_page("pages/7_Analytics.py")
 
         # =========================
         # RESET DAILY CHECK-IN
         # =========================
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        if st.button("🔄 Reset Daily Check-In", use_container_width=True):
+        if st.button(
+            "🔄 Reset Daily Check-In",
+            use_container_width=True,
+        ):
             st.session_state["water"] = 0
             st.session_state["sleep"] = 0
             st.session_state["stress"] = 0
             st.session_state["energy"] = 0
             st.session_state["mood"] = None
+
             st.rerun()
 
-    # =====================================================
-    # ANALYTICS PAGE
-    # =====================================================
-    else:
-
-        st.markdown("## 📊 Performance Insights")
-        st.caption("Monitor your wellness trends over time.")
-
-        col_back, _ = st.columns([1, 4])
-
-        with col_back:
-            back_dashboard = st.button("⬅ Back to Dashboard", key="back_dashboard_btn")
-
-        if back_dashboard:
-            st.session_state["analytics_mode"] = False
-            st.rerun()
-
-        # =========================
-        # DUMMY DATA
-        # =========================
-        if (
-            "analytics_data" not in st.session_state
-            or len(st.session_state.analytics_data) == 0
-        ):
-            st.session_state.analytics_data = []
-            base_date = datetime.datetime.now()
-
-            for i in range(14):
-                st.session_state.analytics_data.append(
-                    {
-                        "date": base_date - datetime.timedelta(days=13 - i),
-                        "sleep": random.randint(5, 9),
-                        "stress": random.randint(2, 8),
-                        "energy": random.randint(4, 10),
-                        "water": random.randint(3, 8),
-                        "wellness_score": random.randint(55, 95),
-                    }
-                )
-
-        df = pd.DataFrame(st.session_state.analytics_data)
-        df["date"] = pd.to_datetime(df["date"])
-
-        # =========================
-        # CHARTS
-        # =========================
-        metrics = [
-            ("sleep", "😴 Sleep Trend"),
-            ("stress", "🧘 Stress Trend"),
-            ("energy", "⚡ Energy Trend"),
-            ("water", "💧 Hydration Trend"),
-            ("wellness_score", "🚀 Wellness Score"),
-        ]
-
-        for metric, title in metrics:
-
-            st.markdown(f"### {title}")
-
-            fig = px.line(df, x="date", y=metric, markers=True)
-
-            fig.update_layout(
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(0,0,0,0)",
-                font=dict(color="white"),
-                height=320,
-            )
-
-            st.plotly_chart(
-                fig,
-                use_container_width=False,
-                config={"displayModeBar": False},
-            )
 
 # =========================
 # WORKOUT PAGE
