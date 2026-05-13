@@ -22,12 +22,6 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 
 # =========================
-# ANALYTICS STATE
-# =========================
-if "show_analytics" not in st.session_state:
-    st.session_state.show_analytics = False
-
-# =========================
 # PAGE CONFIG (MUST BE FIRST)
 # =========================
 st.set_page_config(
@@ -35,6 +29,12 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed",
 )
+
+# =========================
+# ANALYTICS STATE
+# =========================
+if "show_analytics" not in st.session_state:
+    st.session_state.show_analytics = False
 
 LOGO_URL = "https://imgcdn.stablediffusionweb.com/2025/8/29/c87b3fbd-f0fc-46c6-9334-a431484cc041.jpg"
 
@@ -67,51 +67,210 @@ details {
 st.markdown(
     """
 <style>
-div.stDownloadButton > button {
-    background-color: #6C63FF !important;
-    color: white !important;
-    border-radius: 8px;
-    font-weight: 600;
-}
-</style>
-""",
-    unsafe_allow_html=True,
-)
 
-st.markdown(
-    """
-<style>
-div[role="radiogroup"] label {
-    background: rgba(99,102,241,0.12);
-    padding: 12px;
-    border-radius: 12px;
-    margin-bottom: 10px;
-    color: white !important;
-}
-div[role="radiogroup"] label:hover {
-    background: rgba(139,92,246,0.3);
-}
-</style>
-""",
-    unsafe_allow_html=True,
-)
-
-st.markdown(
-    """
-<style>
+/* =========================
+APP BACKGROUND
+========================= */
 .stApp {
     background: linear-gradient(135deg, #0f172a, #111827);
     color: white;
 }
+
+/* MAIN CONTAINER */
 .main .block-container {
     max-width: 1150px;
     padding-top: 1rem;
     padding-left: 1rem;
     padding-right: 1rem;
 }
-div[data-testid="stFileUploader"] {
-    background-color: transparent !important;
+
+/* =========================
+SIDEBAR
+========================= */
+
+section[data-testid="stSidebar"] {
+    background: linear-gradient(
+        180deg,
+        #081028,
+        #0b1736
+    );
+    padding-top: 10px;
 }
+
+/* ALL SIDEBAR TEXT */
+section[data-testid="stSidebar"] * {
+    color: white !important;
+}
+
+/* REMOVE STREAMLIT EXTRA WRAPPERS */
+section[data-testid="stSidebar"] .stRadio > div {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* RADIO GROUP */
+section[data-testid="stSidebar"] div[role="radiogroup"] {
+    gap: 12px;
+}
+
+/* SIDEBAR MENU BUTTONS */
+section[data-testid="stSidebar"] label[data-baseweb="radio"] {
+
+    width: 100% !important;
+    min-height: 52px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    padding: 10px 16px !important;
+
+    border-radius: 20px !important;
+
+    background: rgba(99,102,241,0.16);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    transition: all 0.25s ease;
+
+    box-sizing: border-box !important;
+
+    margin-bottom: 12px !important;
+}
+
+/* ACTIVE PAGE */
+section[data-testid="stSidebar"] label[data-baseweb="radio"][aria-checked="true"] {
+
+    background: linear-gradient(
+        90deg,
+        #5B5FEF,
+        #8B5CF6
+    ) !important;
+
+    border: 1px solid rgba(255,255,255,0.15) !important;
+
+    box-shadow: 0 6px 18px rgba(99,102,241,0.25);
+}
+
+/* HOVER */
+section[data-testid="stSidebar"] label[data-baseweb="radio"]:hover {
+
+    background: linear-gradient(
+        90deg,
+        #5B5FEF,
+        #8B5CF6
+    );
+
+    transform: scale(1.02);
+}
+
+/* TEXT */
+section[data-testid="stSidebar"] label[data-baseweb="radio"] span {
+
+    color: white !important;
+
+    font-size: 15px !important;
+
+    font-weight: 600 !important;
+}
+
+/* RADIO DOT */
+section[data-testid="stSidebar"] input[type="radio"] {
+    accent-color: #ffffff;
+}
+
+/* =========================
+HEADINGS
+========================= */
+h1, h2, h3, h4, h5, h6, label {
+    color: white !important;
+}
+
+/* =========================
+BUTTONS
+========================= */
+.stButton > button {
+    background: linear-gradient(
+        90deg,
+        #5B5FEF,
+        #8B5CF6
+    ) !important;
+
+    color: white !important;
+    border: none !important;
+    border-radius: 14px !important;
+
+    width: 100% !important;
+    height: 52px !important;
+
+    font-weight: 700 !important;
+    font-size: 16px !important;
+
+    transition: all 0.25s ease !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* HOVER */
+.stButton > button:hover {
+    background: linear-gradient(
+        90deg,
+        #4F46E5,
+        #7C3AED
+    ) !important;
+
+    transform: scale(1.01);
+}
+.stButton button:hover {
+    background: linear-gradient(90deg, #4f46e5, #7c3aed) !important;
+    transform: scale(1.01);
+}
+
+/* DOWNLOAD BUTTON */
+div.stDownloadButton > button {
+    background: linear-gradient(90deg, #6366f1, #8b5cf6) !important;
+    color: white !important;
+    border-radius: 10px !important;
+    border: none !important;
+    font-weight: 600 !important;
+}
+
+/* =========================
+INPUTS
+========================= */
+input, textarea {
+    background-color: #0e2a47 !important;
+    color: white !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    border-radius: 12px !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #aaa !important;
+}
+
+div[data-baseweb="input"] > div {
+    background-color: #0e2a47 !important;
+    border-radius: 12px;
+}
+
+div[data-baseweb="input"] input:focus {
+    outline: none !important;
+    border: 1px solid #6366f1 !important;
+}
+
+/* SELECT BOX */
+div[data-baseweb="select"] > div {
+    background-color: #0e2a47 !important;
+    color: white !important;
+    border-radius: 10px;
+}
+
+/* =========================
+CARDS
+========================= */
 .card {
     background: rgba(255,255,255,0.06);
     padding: 16px;
@@ -119,137 +278,149 @@ div[data-testid="stFileUploader"] {
     border: 1px solid rgba(255,255,255,0.08);
     backdrop-filter: blur(8px);
 }
-h1, h2, h3, h4, label {
-    color: white !important;
-}
-.stButton button {
-    background: linear-gradient(90deg, #6366f1, #8b5cf6);
-    color: white !important;
-    border-radius: 10px;
-    height: 42px;
-    width: 100% !important;
-    border: none;
-    font-weight: 600;
-    transition: all 0.25s ease;
-}
-.stButton button:hover {
-    background: linear-gradient(90deg, #4f46e5, #7c3aed);
-}
-.stSlider label {
-    color: #ddd;
-}
-input, textarea {
-    background-color: #0e2a47 !important;
-    color: white !important;
-    border: 1px solid rgba(255,255,255,0.2) !important;
-    border-radius: 10px !important;
-}
-input::placeholder {
-    color: #aaa !important;
-}
-div[data-baseweb="input"] > div {
-    background-color: #0e2a47 !important;
-    border-radius: 10px;
-}
-div[data-baseweb="input"] input:focus {
-    outline: none !important;
-    border: 1px solid #6366f1 !important;
-}
-div[data-baseweb="select"] > div {
-    background-color: #0e2a47 !important;
-    color: white !important;
-    border-radius: 8px;
-}
+
+/* =========================
+IMAGES
+========================= */
 img {
-    border-radius: 14px;
+    border-radius: 18px;
     object-fit: cover;
 }
+
+/* =========================
+PROGRESS BAR
+========================= */
 .stProgress > div > div {
     background: linear-gradient(90deg, #22c55e, #4ade80);
 }
+
+/* =========================
+CHAT BUBBLES
+========================= */
 .user-bubble {
     background: linear-gradient(90deg, #6366f1, #8b5cf6);
-    padding: 10px 14px;
-    border-radius: 12px;
+    padding: 12px 16px;
+    border-radius: 18px 18px 4px 18px;
     color: white;
-    margin: 8px 0;
-    max-width: 85%;
+    margin: 10px 0;
+    max-width: 75%;
     width: fit-content;
     margin-left: auto;
+    font-size: 15px;
+    line-height: 1.7;
 }
+
 .bot-bubble {
     background: rgba(255,255,255,0.08);
-    padding: 10px 14px;
-    border-radius: 12px;
+    padding: 16px;
+    border-radius: 18px 18px 18px 4px;
     color: white;
-    margin: 8px 0;
+    margin: 10px 0;
     max-width: 85%;
     width: fit-content;
+    line-height: 1.8;
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
 }
-section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #081028, #0b1736);
-}
-section[data-testid="stSidebar"] * {
-    color: white !important;
-}
-section[data-testid="stSidebar"] .stRadio label {
-    color: white !important;
-}
-section[data-testid="stSidebar"] .stRadio div[role="radiogroup"] label {
-    background: rgba(255,255,255,0.05);
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 8px;
-}
-.stat-card {
-    display: none;
-}
-</style>
-""",
-    unsafe_allow_html=True,
-)
 
-st.markdown(
-    """
-<style>
+/* LINKS INSIDE CHAT */
+.bot-bubble a {
+    color: white !important;
+    text-decoration: underline;
+}
+
+/* =========================
+EXPANDERS
+========================= */
+.streamlit-expanderHeader {
+    background: rgba(255,255,255,0.05) !important;
+    color: white !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+.streamlit-expanderContent {
+    background: rgba(255,255,255,0.03) !important;
+    border-radius: 0px 0px 12px 12px !important;
+    color: white !important;
+}
+
+/* =========================
+ALERTS
+========================= */
 div[data-testid="stAlert"] {
     color: white !important;
 }
-details {
-    color: white !important;
-}
-details p {
-    color: white !important;
-}
+
 .stAlert p {
     color: white !important;
 }
+
+/* =========================
+TEXT
+========================= */
 p {
     color: white !important;
 }
+
+details {
+    color: white !important;
+}
+
+details p {
+    color: white !important;
+}
+
+/* =========================
+FILE UPLOADER
+========================= */
+div[data-testid="stFileUploader"] {
+    background-color: transparent !important;
+}
+
+/* =========================
+MOBILE RESPONSIVE
+========================= */
 @media (max-width: 768px) {
-    h1 { font-size: 28px !important; }
-    h2 { font-size: 24px !important; }
-    h3 { font-size: 20px !important; }
-    .stButton button { height: 40px; font-size: 14px; }
-    .main .block-container { padding-left: 0.8rem; padding-right: 0.8rem; }
+
+    h1 {
+        font-size: 28px !important;
+    }
+
+    h2 {
+        font-size: 24px !important;
+    }
+
+    h3 {
+        font-size: 20px !important;
+    }
+
+    .stButton button {
+        height: 42px;
+        font-size: 14px;
+    }
+
+    .main .block-container {
+        padding-left: 0.8rem;
+        padding-right: 0.8rem;
+    }
+
+    .user-bubble,
+    .bot-bubble {
+        max-width: 95%;
+        font-size: 14px;
+    }
 }
+
+/* HIDE UNUSED */
+.stat-card {
+    display: none;
+}
+
 </style>
 """,
     unsafe_allow_html=True,
 )
-
-st.markdown(
-    """
-<style>
-img {
-    border-radius: 18px;
-}
-</style>
-""",
-    unsafe_allow_html=True,
-)
-
 # =========================
 # SESSION STATE DEFAULTS
 # =========================
@@ -362,21 +533,6 @@ def extract_links(text):
     return re.findall(r"https?://[^\s]+", text)
 
 
-MEMORY_FILE = "coach_memory.json"
-
-
-def load_memory():
-    if os.path.exists(MEMORY_FILE):
-        with open(MEMORY_FILE, "r") as f:
-            return json.load(f)
-    return []
-
-
-def save_memory(mem):
-    with open(MEMORY_FILE, "w") as f:
-        json.dump(mem, f)
-
-
 # =========================
 # SESSION STATE DEFAULTS
 # =========================
@@ -414,7 +570,7 @@ with st.sidebar:
     st.markdown(
         """
         <h2 style="margin-bottom:0px;">⚡ AIVioMate</h2>
-        <p style="margin-top:0px; opacity:0.7; font-size:14px;">AI Wellness Companion</p>
+        <p style="margin-top:0px; opacity:0.7; font-size:12px;">AI Wellness Companion</p>
         """,
         unsafe_allow_html=True,
     )
@@ -446,25 +602,35 @@ if page == "Profile":
     # =========================
     # HERO CARD
     # =========================
+
     st.markdown(
         """
-        <div style="
-        background: rgba(255,255,255,0.05);
-        padding:20px;
-        border-radius:16px;
-        margin-bottom:22px;
-        border:1px solid rgba(255,255,255,0.08);
-        ">
-        <h2 style="margin-bottom:6px;">🚀 Welcome to AIVioMate</h2>
-        <p style="opacity:0.8; font-size:15px; margin-bottom:0px;">
-        Your AI-powered wellness companion for fitness,
+<div style="
+background:rgba(99,102,241,0.10);
+padding:20px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.06);
+margin-bottom:25px;
+">
+
+<h3 style="color:white;">
+🚀 Welcome to AIVioMate
+</h3>
+
+<p style="
+color:#d1d5db;
+font-size:15px;
+line-height:1.7;
+margin-bottom:0;
+">
+Your AI-powered wellness companion for fitness,
         nutrition, recovery & performance tracking.
-        </p>
-        </div>
-        """,
+</p>
+
+</div>
+""",
         unsafe_allow_html=True,
     )
-
     # =========================
     # HOW TO USE APP
     # =========================
@@ -473,7 +639,7 @@ if page == "Profile":
         st.markdown(
             """
             <div style='font-size:15px;'>
-            <h3>👤 Step 1 — Complete Your Profile</h3>
+            <h4>👤 Step 1 — Complete Your Profile</h4>
             Fill:
             <ul>
                 <li>Age</li>
@@ -531,7 +697,7 @@ if page == "Profile":
     # =========================
     st.markdown(
         """
-        <h2 style='margin-bottom:4px;'>👤 Your Profile</h2>
+        <h3 style='margin-bottom:4px;'>👤 Your Profile</h3>
         <p style='opacity:0.75;'>Tell us about yourself to personalize your plans</p>
         """,
         unsafe_allow_html=True,
@@ -660,7 +826,13 @@ if page == "Profile":
         key="lifestyle_input",
     )
 
-    sleep_pref = st.slider("Average Sleep (hrs)", 0, 10, 6, key="sleep_input")
+    # =========================
+    # HEALTH CONDITIONS
+    # =========================
+    illness = st.text_input(
+        "Health Conditions / Illness (Optional)",
+        placeholder="Example: Diabetes, thyroid, heart condition, knee pain, asthma...",
+    )
 
     injury = st.selectbox(
         "Injury",
@@ -700,8 +872,8 @@ if page == "Profile":
                 "goal": goal,
                 "level": level,
                 "lifestyle": lifestyle,
-                "sleep": sleep_pref,
                 "injury": injury,
+                "illness": illness,
             }
 
             if "profile_history" not in st.session_state:
@@ -741,8 +913,8 @@ elif page == "Dashboard":
     # =========================
     # STATE
     # =========================
-    if "analytics_mode" not in st.session_state:
-        st.session_state.analytics_mode = False
+    if "show_analytics" not in st.session_state:
+        st.session_state.show_analytics = False
 
     if "water" not in st.session_state:
         st.session_state.water = 0
@@ -806,6 +978,7 @@ movement and recovery daily.
         # =========================
         st.markdown("## 🧠 Daily Check-in")
         st.caption("Track recovery, hydration, stress and wellness daily.")
+
         st.markdown("<br>", unsafe_allow_html=True)
 
         # =========================
@@ -814,14 +987,30 @@ movement and recovery daily.
         c1, c2 = st.columns(2)
 
         with c1:
-            sleep = st.slider("Sleep (hrs)", 0, 12, st.session_state.get("sleep", 6))
+            sleep = st.slider(
+                "Sleep (hrs)",
+                0,
+                12,
+                st.session_state.get("sleep", 6),
+            )
             st.session_state.sleep = sleep
 
         with c2:
-            stress = st.slider("Stress", 0, 10, st.session_state.get("stress", 4))
+            stress = st.slider(
+                "Stress",
+                0,
+                10,
+                st.session_state.get("stress", 4),
+            )
             st.session_state.stress = stress
 
-        energy = st.slider("Energy", 0, 10, st.session_state.get("energy", 6))
+        energy = st.slider(
+            "Energy",
+            0,
+            10,
+            st.session_state.get("energy", 6),
+        )
+
         st.session_state.energy = energy
 
         st.markdown("<br>", unsafe_allow_html=True)
@@ -846,22 +1035,23 @@ movement and recovery daily.
 
                 st.markdown(
                     f"""
-    <div style="
-    font-size:14px;
-    font-weight:600;
-    margin-bottom:8px;
-    color:white;
-    text-align:left;
-    ">
-    {label}
-    </div>
-    """,
+<div style="
+font-size:12px;
+font-weight:600;
+margin-bottom:8px;
+color:white;
+text-align:center;
+">
+{label}
+</div>
+""",
                     unsafe_allow_html=True,
                 )
 
                 if st.button(
                     emoji,
                     key=f"mood_{i}",
+                    use_container_width=True,
                 ):
                     st.session_state.mood = label
                     st.session_state.mood_value = score_value
@@ -870,6 +1060,37 @@ movement and recovery daily.
         current_mood = st.session_state.get("mood", "Not Selected")
 
         st.caption(f"Current Mood: {current_mood}")
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # =========================
+        # HYDRATION
+        # =========================
+        st.markdown("## 💧 Hydration")
+
+        water = st.slider(
+            "Daily Water Intake (glasses)",
+            min_value=0,
+            max_value=12,
+            value=st.session_state.get("water", 0),
+        )
+
+        st.session_state.water = water
+
+        st.markdown(
+            f"""
+<div style="
+font-size:20px;
+font-weight:600;
+margin-top:8px;
+margin-bottom:20px;
+color:white;
+">
+{water} / 12 glasses
+</div>
+""",
+            unsafe_allow_html=True,
+        )
 
         # =========================
         # WELLNESS SCORE
@@ -884,20 +1105,11 @@ movement and recovery daily.
             "Great": 10,
         }
 
-        mood_value = mood_map.get(st.session_state.get("mood"), 0)
+        mood_value = mood_map.get(
+            st.session_state.get("mood"),
+            0,
+        )
 
-        # =========================
-        # INDIVIDUAL SCORES
-        # =========================
-        sleep_score = sleep * 10
-        stress_score = (10 - stress) * 10 if stress > 0 else 0
-        energy_score = energy * 10
-        water_score = st.session_state.water * 10
-        mood_score = mood_value * 10
-
-        # =========================
-        # CHECK IF USER ENTERED ANYTHING
-        # =========================
         has_inputs = any(
             [
                 sleep > 0,
@@ -908,31 +1120,38 @@ movement and recovery daily.
             ]
         )
 
-        # =========================
-        # FINAL SCORE
-        # =========================
         if not has_inputs:
+
             score = 0
             color = "#6b7280"
             label = "Start Check-In"
 
         else:
+
             values = []
 
             if sleep > 0:
                 values.append(sleep * 10)
+
             if stress > 0:
                 values.append((10 - stress) * 10)
+
             if energy > 0:
                 values.append(energy * 10)
+
             if st.session_state.water > 0:
                 values.append(st.session_state.water * 10)
+
             if mood_value > 0:
                 values.append(mood_value * 10)
 
-            score = min(int(sum(values) / len(values)), 100)
+            score = min(
+                int(sum(values) / len(values)),
+                100,
+            )
 
             color = "#ef4444" if score < 40 else "#f59e0b" if score < 70 else "#22c55e"
+
             label = (
                 "Needs Attention"
                 if score < 40
@@ -946,7 +1165,12 @@ movement and recovery daily.
                     hole=0.72,
                     rotation=90,
                     textinfo="none",
-                    marker=dict(colors=[color, "#1f2937"]),
+                    marker=dict(
+                        colors=[
+                            color,
+                            "#1f2937",
+                        ]
+                    ),
                 )
             ]
         )
@@ -956,14 +1180,22 @@ movement and recovery daily.
             height=240,
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
-            margin=dict(t=0, b=0, l=0, r=0),
+            margin=dict(
+                t=0,
+                b=0,
+                l=0,
+                r=0,
+            ),
             showlegend=False,
             annotations=[
                 dict(
                     text=f"<b>{score}</b><br>{label}",
                     x=0.5,
                     y=0.5,
-                    font=dict(size=26, color="white"),
+                    font=dict(
+                        size=26,
+                        color="white",
+                    ),
                     showarrow=False,
                 )
             ],
@@ -978,24 +1210,32 @@ movement and recovery daily.
                 use_container_width=False,
             )
 
+        st.markdown("<br>", unsafe_allow_html=True)
+
         # =========================
         # SMART TIPS
         # =========================
         st.markdown("### 💡 Smart Tips")
 
         tips = []
+
         if sleep < 6:
             tips.append("😴 Improve your sleep schedule")
+
         if stress > 7:
             tips.append("🧘 High stress detected today")
+
         if st.session_state.water < 5:
             tips.append("💧 Increase hydration")
+
         if energy < 5:
             tips.append("⚡ Prioritize recovery")
+
         if not tips:
             tips.append("🔥 Excellent consistency today")
 
         for tip in tips:
+
             st.markdown(
                 f"""
 <div style="
@@ -1012,6 +1252,11 @@ color:white;
                 unsafe_allow_html=True,
             )
 
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # =========================
+        # BUTTONS
+        # =========================
         if st.button(
             "📈 Open Detailed Analytics",
             use_container_width=True,
@@ -1019,9 +1264,8 @@ color:white;
             st.session_state.show_analytics = True
             st.rerun()
 
-        # =========================
-        # RESET DAILY CHECK-IN
-        # =========================
+        st.markdown("<br>", unsafe_allow_html=True)
+
         if st.button(
             "🔄 Reset Daily Check-In",
             use_container_width=True,
@@ -1031,78 +1275,13 @@ color:white;
             st.session_state["stress"] = 0
             st.session_state["energy"] = 0
             st.session_state["mood"] = None
-
             st.rerun()
 
     # =====================================================
-    # ANALYTICS PAGE
+    # ANALYTICS VIEW
     # =====================================================
     else:
 
-        # =========================
-        # CUSTOM STYLING
-        # =========================
-        st.markdown(
-            """
-<style>
-
-/* MAIN APP */
-.stApp {
-    background-color: #07122b;
-    color: white;
-}
-
-/* SIDEBAR */
-[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #081028 0%, #07122b 100%);
-    border-right: 1px solid rgba(255,255,255,0.05);
-}
-
-/* SIDEBAR TEXT */
-[data-testid="stSidebar"] * {
-    color: white !important;
-}
-
-/* BUTTONS */
-.stButton > button {
-    background: linear-gradient(90deg,#6366f1,#8b5cf6);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 0.7rem 1rem;
-    font-weight: 600;
-}
-
-.stButton > button:hover {
-    opacity: 0.92;
-    color: white;
-}
-
-/* HEADINGS */
-h1, h2, h3 {
-    color: #ffffff !important;
-    opacity: 1 !important;
-}
-
-/* TEXT */
-p, label, span, div {
-    color: #ffffff !important;
-    opacity: 1 !important;
-}
-
-/* REMOVE STREAMLIT GREY */
-.block-container {
-    padding-top: 2rem;
-}
-
-</style>
-""",
-            unsafe_allow_html=True,
-        )
-
-        # =========================
-        # BACK BUTTON
-        # =========================
         if st.button(
             "⬅ Back to Dashboard",
             use_container_width=True,
@@ -1110,25 +1289,24 @@ p, label, span, div {
             st.session_state.show_analytics = False
             st.rerun()
 
-        # =========================
-        # HEADER
-        # =========================
         st.markdown("## 📊 Performance Insights")
 
         st.caption("Monitor your wellness trends over time.")
 
         # =========================
-        # DUMMY DATA
+        # ANALYTICS DATA
         # =========================
         if (
             "analytics_data" not in st.session_state
             or len(st.session_state.analytics_data) == 0
         ):
+
             st.session_state.analytics_data = []
 
             base_date = datetime.datetime.now()
 
             for i in range(14):
+
                 st.session_state.analytics_data.append(
                     {
                         "date": base_date - datetime.timedelta(days=13 - i),
@@ -1140,16 +1318,10 @@ p, label, span, div {
                     }
                 )
 
-        # =========================
-        # DATAFRAME
-        # =========================
         df = pd.DataFrame(st.session_state.analytics_data)
 
         df["date"] = pd.to_datetime(df["date"])
 
-        # =========================
-        # CHARTS
-        # =========================
         metrics = [
             ("sleep", "😴 Sleep Trend"),
             ("stress", "🧘 Stress Trend"),
@@ -1169,9 +1341,6 @@ p, label, span, div {
                 markers=True,
             )
 
-            # =========================
-            # LINE STYLE
-            # =========================
             fig.update_traces(
                 line=dict(
                     color="#38bdf8",
@@ -1183,9 +1352,6 @@ p, label, span, div {
                 ),
             )
 
-            # =========================
-            # CHART LAYOUT
-            # =========================
             fig.update_layout(
                 paper_bgcolor="#07122b",
                 plot_bgcolor="#0b1736",
@@ -1222,22 +1388,61 @@ p, label, span, div {
 # =========================
 elif page == "Workout":
 
-    st.subheader("💪 Workout Plans")
-    st.info("👉 Complete your Profile for highly personalized workout recommendations")
+    # =========================
+    # HERO CARD
+    # =========================
+    st.markdown(
+        """
+<div style="
+background:rgba(99,102,241,0.10);
+padding:20px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.06);
+margin-bottom:25px;
+">
 
-    st.image(
-        "https://images.unsplash.com/photo-1599058917212-d750089bc07e",
-        width=700,
+<h3 style="color:white;">
+🔥 Personalized Fitness Guidance
+</h3>
+
+<p style="
+color:#d1d5db;
+font-size:15px;
+line-height:1.7;
+margin-bottom:0;
+">
+Generate personalized AI-powered workout plans based on your goals, fitness level and recovery.
+</p>
+
+</div>
+""",
+        unsafe_allow_html=True,
     )
+
+    # =========================
+    # HERO IMAGE
+    # =========================
+    img_left, img_center, img_right = st.columns([1, 2.2, 1])
+
+    with img_center:
+        st.image(
+            "https://images.unsplash.com/photo-1599058917212-d750089bc07e",
+            use_container_width=True,
+        )
+
     st.markdown("<br>", unsafe_allow_html=True)
 
     # =========================
     # GENERATE WORKOUT
     # =========================
+
+    st.info("👉 Complete your Profile for highly personalized workout recommendations")
+
     if st.button("🚀 Generate AI Workout", use_container_width=True):
 
         profile_data = st.session_state.get("profile_data", {})
         progress = st.session_state.get("progress_data", {})
+
         required_fields = ["age", "weight", "goal", "level"]
 
         missing = [
@@ -1249,10 +1454,14 @@ elif page == "Workout":
 
         if missing:
             st.warning("⚠️ Complete your Profile page before generating workout plans.")
+
         else:
             result = generate_workout(profile_data, progress)
+
             st.session_state["workout_result"] = result
+
             update_memory("workout_history", result)
+
             st.success("✅ Workout plan generated successfully")
 
     # =========================
@@ -1261,22 +1470,27 @@ elif page == "Workout":
     if "workout_result" in st.session_state:
 
         st.markdown("<br>", unsafe_allow_html=True)
+
         st.markdown(
-            "<h2 style='margin-bottom:8px;'>🏋️ Your Workout Plan</h2>",
+            "## 🏋️ Your Workout Plan",
             unsafe_allow_html=True,
         )
 
         clean_text = re.sub(r"<.*?>", "", st.session_state["workout_result"])
 
         buffer = BytesIO()
+
         doc = SimpleDocTemplate(buffer)
+
         styles = getSampleStyleSheet()
+
         content = []
 
         for line in clean_text.split("\n"):
             content.append(Paragraph(line, styles["Normal"]))
 
         doc.build(content)
+
         buffer.seek(0)
 
         st.download_button(
@@ -1288,39 +1502,48 @@ elif page == "Workout":
         )
 
         st.markdown("<br>", unsafe_allow_html=True)
+
         st.markdown(
             f"""
-            <div style="
-            background:rgba(255,255,255,0.04);
-            padding:18px;
-            border-radius:16px;
-            border:1px solid rgba(255,255,255,0.08);
-            ">
-            {clean_text}
-            </div>
-            """,
+<div style="
+background:rgba(255,255,255,0.04);
+padding:20px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.08);
+line-height:1.8;
+">
+{clean_text}
+</div>
+""",
             unsafe_allow_html=True,
         )
+
+    st.markdown("<br>", unsafe_allow_html=True)
 
     # =========================
     # ZUMBA SECTION
     # =========================
     st.markdown(
         """
-        <div style="
-        background:rgba(99,102,241,0.12);
-        padding:18px;
-        border-radius:16px;
-        border:1px solid rgba(139,92,246,0.3);
-        margin-bottom:18px;
-        ">
-        <h3 style='margin-top:0px;'>💃 Dance & Zumba Workouts</h3>
-        <p style='opacity:0.8; margin-bottom:0px;'>
-        Looking for something fun, energetic & beginner-friendly?
-        Try dance-based fitness routines.
-        </p>
-        </div>
-        """,
+<div style="
+background:rgba(99,102,241,0.10);
+padding:20px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.06);
+margin-bottom:22px;
+">
+
+<h3 style='margin-top:0px; color:white;'>
+💃 Dance & Zumba Workouts
+</h3>
+
+<p style='color:#d1d5db; line-height:1.7; margin-bottom:0px;'>
+Looking for something fun, energetic and beginner-friendly?
+Try dance-based cardio and zumba fitness routines.
+</p>
+
+</div>
+""",
         unsafe_allow_html=True,
     )
 
@@ -1329,69 +1552,127 @@ elif page == "Workout":
         result = generate_zumba()
 
         st.markdown(
-            "<h3 style='margin-bottom:10px;'>💃 Zumba Workout Plan</h3>",
+            "## 💃 Zumba Workout Plan",
             unsafe_allow_html=True,
         )
+
         st.markdown(
             f"""
-            <div style="
-            background:rgba(255,255,255,0.04);
-            padding:18px;
-            border-radius:16px;
-            border:1px solid rgba(255,255,255,0.08);
-            ">
-            {result}
-            </div>
-            """,
+<div style="
+background:rgba(255,255,255,0.04);
+padding:20px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.08);
+line-height:1.8;
+">
+{result}
+</div>
+""",
             unsafe_allow_html=True,
         )
+
+    st.markdown("<br>", unsafe_allow_html=True)
 
     # =========================
     # WORKOUT HISTORY
     # =========================
     st.markdown(
-        "<h2 style='margin-bottom:12px;'>📚 Workout History</h2>",
+        "### 📚 Workout History",
         unsafe_allow_html=True,
     )
 
     history = st.session_state.get("plan_history", [])
+
     workouts = [h for h in history if h["type"].lower() == "workout"]
 
     if workouts:
-        for item in reversed(workouts[-5:]):
-            with st.expander(f"💪 {item['date']}", expanded=False):
-                st.markdown(item["content"])
-    else:
-        st.info("No workout history yet.")
 
+        for item in reversed(workouts[-5:]):
+
+            with st.expander(f"💪 {item['date']}", expanded=False):
+
+                st.markdown(item["content"])
+
+    else:
+
+        st.info("No workout history yet.")
 
 # =========================
 # NUTRITION PAGE
 # =========================
 elif page == "Nutrition":
 
-    st.subheader("🥗 Nutrition Plans")
+    # =========================
+    # HERO CARD
+    # =========================
+    st.markdown(
+        """
+<div style="
+background:rgba(99,102,241,0.10);
+padding:20px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.06);
+margin-bottom:25px;
+">
 
-    st.image(
-        "https://libapps-au.s3-ap-southeast-2.amazonaws.com/accounts/97668/images/teadergrafik_nutritions.jpg",
-        width=700,
+<h3 style="color:white;">
+🥗 Smart Nutrition Guidance
+</h3>
+
+<p style="
+color:#d1d5db;
+font-size:15px;
+line-height:1.7;
+margin-bottom:0;
+">
+Personalized nutrition plans designed for your fitness goals, lifestyle, illness and skin health.
+</p>
+
+</div>
+""",
+        unsafe_allow_html=True,
     )
+
+    # =========================
+    # HERO IMAGE
+    # =========================
+    img_left, img_center, img_right = st.columns([1, 2.2, 1])
+
+    with img_center:
+        st.image(
+            "https://libapps-au.s3-ap-southeast-2.amazonaws.com/accounts/97668/images/teadergrafik_nutritions.jpg",
+            use_container_width=True,
+        )
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     # =========================
-    # NUTRITION FORM CARD
+    # NUTRITION FORM
     # =========================
+    st.markdown("### 🥙 Nutrition Preferences")
+
     st.markdown(
         """
-        <div style="
-        background:rgba(255,255,255,0.04);
-        padding:18px;
-        border-radius:16px;
-        margin-bottom:22px;
-        border:1px solid rgba(255,255,255,0.08);
-        ">
-        """,
+    <div style="
+    background:rgba(255,255,255,0.04);
+    padding:18px;
+    border-radius:16px;
+    margin-bottom:22px;
+    border:1px solid rgba(255,255,255,0.08);
+    ">
+
+    <p style="
+    color:#d1d5db;
+    font-size:15px;
+    line-height:1.7;
+    margin-bottom:0;
+    ">
+    ✨ Please complete your profile and select your cuisine, food type and skin preferences below
+    for smarter and more personalized meal recommendations.
+    </p>
+
+    </div>
+    """,
         unsafe_allow_html=True,
     )
 
@@ -1406,7 +1687,7 @@ elif page == "Nutrition":
     )
 
     st.markdown(
-        "<h3 style='margin-top:18px; margin-bottom:8px;'>✨ Skin Preferences</h3>",
+        "### ✨ Skin Preferences",
         unsafe_allow_html=True,
     )
 
@@ -1425,11 +1706,14 @@ elif page == "Nutrition":
     # =========================
     # GENERATE DIET
     # =========================
+
     if st.button("🚀 Generate Nutrition Plan", use_container_width=True):
 
         profile_data = st.session_state.get("profile_data", {})
+
         progress = st.session_state.get("progress_data", {})
-        required_fields = ["age", "weight", "goal", "level"]
+
+        required_fields = ["age", "weight", "goal", "level", "illness"]
 
         missing = [
             field
@@ -1439,10 +1723,13 @@ elif page == "Nutrition":
         ]
 
         if missing:
+
             st.warning(
                 "⚠️ Please complete your Profile page before generating a personalized nutrition plan."
             )
+
         else:
+
             final_profile = {
                 **profile_data,
                 "cuisine": cuisine,
@@ -1452,10 +1739,18 @@ elif page == "Nutrition":
             }
 
             result = generate_diet(
-                final_profile, progress, cuisine, food_type, skin_type, skin_goal
+                final_profile,
+                progress,
+                cuisine,
+                food_type,
+                skin_type,
+                skin_goal,
             )
+
             st.session_state["diet_result"] = result
+
             update_memory("diet_history", result)
+
             st.success("✅ Nutrition plan generated successfully")
 
     # =========================
@@ -1464,24 +1759,32 @@ elif page == "Nutrition":
     if "diet_result" in st.session_state:
 
         st.markdown("<br>", unsafe_allow_html=True)
+
         st.markdown(
-            "<h2 style='margin-bottom:8px;'>🍽️ Your Nutrition Plan</h2>",
+            "## 🍽️ Your Nutrition Plan",
             unsafe_allow_html=True,
         )
+
         st.success("🥗 Personalized for your lifestyle & skin goals")
+
         st.caption("💊 Supplement suggestions are general wellness recommendations")
 
         clean_text = re.sub(r"<.*?>", "", st.session_state["diet_result"])
 
         buffer = BytesIO()
+
         doc = SimpleDocTemplate(buffer)
+
         styles = getSampleStyleSheet()
+
         content = []
 
         for line in clean_text.split("\n"):
+
             content.append(Paragraph(line, styles["Normal"]))
 
         doc.build(content)
+
         buffer.seek(0)
 
         st.download_button(
@@ -1493,67 +1796,122 @@ elif page == "Nutrition":
         )
 
         st.markdown("<br>", unsafe_allow_html=True)
+
         st.markdown(
             f"""
-            <div style="
-            background:rgba(255,255,255,0.04);
-            padding:18px;
-            border-radius:16px;
-            border:1px solid rgba(255,255,255,0.08);
-            ">
-            {clean_text}
-            </div>
-            """,
+<div style="
+background:rgba(255,255,255,0.04);
+padding:20px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.08);
+line-height:1.8;
+">
+{clean_text}
+</div>
+""",
             unsafe_allow_html=True,
         )
+
+    st.markdown("<br>", unsafe_allow_html=True)
 
     # =========================
     # NUTRITION HISTORY
     # =========================
     st.markdown(
-        "<h2 style='margin-bottom:12px;'>📚 Nutrition History</h2>",
+        "### 📚 Nutrition History",
         unsafe_allow_html=True,
     )
 
     history = st.session_state.get("plan_history", [])
+
     diets = [h for h in history if h["type"].lower() == "diet"]
 
     if diets:
-        for item in reversed(diets[-5:]):
-            with st.expander(f"🥗 {item['date']}", expanded=False):
-                st.markdown(item["content"])
-    else:
-        st.info("No nutrition history yet.")
 
+        for item in reversed(diets[-5:]):
+
+            with st.expander(f"🥗 {item['date']}", expanded=False):
+
+                st.markdown(item["content"])
+
+    else:
+
+        st.info("No nutrition history yet.")
 
 # =========================
 # COACH PAGE
 # =========================
 elif page == "Coach":
 
+    import re
+    from difflib import get_close_matches
+
     # =========================
-    # INIT STATES
+    # SESSION STATES
     # =========================
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
-    if "prefill" not in st.session_state:
-        st.session_state.prefill = ""
+    if "recent_chats" not in st.session_state:
+        st.session_state.recent_chats = []
 
-    st.subheader("🤖 AI Wellness Coach")
+    # =========================
+    # HERO CARD
+    # =========================
 
-    st.image(
-        "https://coachvox.ai/wp-content/uploads/2023/04/AI-enhanced-coaching.jpg",
-        width=700,
+    st.markdown(
+        """
+<div style="
+background:rgba(99,102,241,0.10);
+padding:20px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.06);
+margin-bottom:25px;
+">
+
+<h3 style="color:white;">
+🤖 Your Personal Coach
+</h3>
+
+<p style="
+color:#d1d5db;
+font-size:15px;
+line-height:1.7;
+margin-bottom:0;
+">
+Your AI companion for workouts, nutrition, recovery & wellness guidance.
+</p>
+
+</div>
+""",
+        unsafe_allow_html=True,
     )
+    # =========================
+    # HERO IMAGE
+    # =========================
+    img_left, img_center, img_right = st.columns([1, 2.2, 1])
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    with img_center:
+        st.image(
+            "https://coachvox.ai/wp-content/uploads/2023/04/AI-enhanced-coaching.jpg",
+            use_container_width=True,
+        )
+
+        st.markdown("<br>", unsafe_allow_html=True)
 
     # =========================
     # QUICK SUGGESTIONS
     # =========================
     st.markdown(
-        "<h3 style='margin-bottom:10px;'>💡 Quick Suggestions</h3>",
+        """
+        <h2 style="
+        color:white;
+        margin-bottom:18px;
+        font-weight:700;
+        ">
+        💡 Quick Suggestions
+        </h2>
+        """,
         unsafe_allow_html=True,
     )
 
@@ -1563,134 +1921,404 @@ elif page == "Coach":
         "How to reduce stress quickly",
     ]
 
-    for q in suggestions:
-        if st.button(q, use_container_width=True):
-            st.session_state.prefill = q
+    cols = st.columns(3)
+
+    for idx, q in enumerate(suggestions):
+
+        with cols[idx]:
+
+            if st.button(
+                q,
+                use_container_width=True,
+                key=f"suggestion_{idx}",
+            ):
+
+                profile = get_user_profile()
+
+                enhanced_query = f"""
+                {q}
+
+                IMPORTANT:
+                - Fix typos automatically
+                - Respond naturally
+                - If user asks for videos, provide YouTube links
+                """
+
+                reply = coach_reply(enhanced_query, profile)
+
+                st.session_state.chat_history.append(
+                    {
+                        "role": "user",
+                        "content": q,
+                    }
+                )
+
+                st.session_state.chat_history.append(
+                    {
+                        "role": "assistant",
+                        "content": reply,
+                    }
+                )
+
+                st.session_state.recent_chats.insert(0, q)
+
+                st.rerun()
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     # =========================
-    # CHAT HISTORY
+    # CHAT DISPLAY
     # =========================
-    if st.session_state.chat_history:
-        st.markdown(
-            "<h3 style='margin-bottom:14px;'>💬 Conversation</h3>",
-            unsafe_allow_html=True,
-        )
-
     for msg in st.session_state.chat_history:
 
-        cls = "user-bubble" if msg["role"] == "user" else "bot-bubble"
+        if msg["role"] == "user":
 
-        st.markdown(
-            f'<div class="{cls}">{msg["content"]}</div>',
-            unsafe_allow_html=True,
-        )
+            st.markdown(
+                f"""
+                <div style="
+                display:flex;
+                justify-content:flex-end;
+                margin-bottom:14px;
+                ">
+                    <div style="
+                    background:linear-gradient(135deg,#5B5FFB,#8B5CF6);
+                    color:white;
+                    padding:14px 18px;
+                    border-radius:18px 18px 4px 18px;
+                    max-width:75%;
+                    font-size:15px;
+                    font-weight:500;
+                    box-shadow:0 4px 12px rgba(0,0,0,0.18);
+                    ">
+                    {msg["content"]}
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+        else:
+
+            reply = msg["content"]
+
+            # =========================
+            # VIDEO LINKS
+            # =========================
+            if "video" in reply.lower() or "youtube" in reply.lower():
+
+                urls = re.findall(r"(https?://[^\s]+)", reply)
+
+                for url in urls:
+                    reply = reply.replace(
+                        url,
+                        f"""
+    <a href="{url}" 
+    target="_blank" 
+    style="
+    color:#FFFFFF !important;
+    text-decoration:underline !important;
+    font-weight:500;
+    ">
+    {url}
+    </a>
+    """,
+                    )
+
+            st.markdown(
+                f"""
+                <div style="
+                display:flex;
+                justify-content:flex-start;
+                margin-bottom:18px;
+                ">
+                    <div style="
+                    background:rgba(255,255,255,0.05);
+                    padding:18px;
+                    border-radius:18px 18px 18px 4px;
+                    max-width:85%;
+                    line-height:1.9;
+                    border:1px solid rgba(255,255,255,0.06);
+                    font-size:15px;
+                    box-shadow:0 4px 12px rgba(0,0,0,0.18);
+                    color:white;
+                    ">
+                    {reply}
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
     # =========================
-    # INPUT BOX
+    # INPUT FORM
     # =========================
-    user_input = st.text_input(
-        "Ask your coach...",
-        value=st.session_state.prefill,
-        key="coach_input",
-        placeholder="Ask about workouts, nutrition, recovery, stress...",
-    )
-
-    # =========================
-    # GET GUIDANCE
-    # =========================
-    if st.button("🚀 Get Guidance", use_container_width=True) and user_input:
-
-        st.session_state.chat_history.append({"role": "user", "content": user_input})
-
-        profile = get_user_profile()
-        reply = coach_reply(user_input, profile)
-
-        st.session_state.chat_history.append({"role": "assistant", "content": reply})
-        st.session_state.prefill = ""
-        st.rerun()
-
-    # =========================
-    # RECENT CONVERSATIONS
-    # =========================
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown(
-        "<h2 style='margin-bottom:12px;'>📚 Recent Conversations</h2>",
+        """
+    <style>
+
+    div.stButton > button:first-child,
+    div[data-testid="stFormSubmitButton"] button {
+
+        background: linear-gradient(135deg, #5B5FFB, #8B5CF6) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 14px !important;
+        font-weight: 600 !important;
+        height: 52px !important;
+        transition: 0.3s ease-in-out !important;
+    }
+
+    div.stButton > button:first-child:hover,
+    div[data-testid="stFormSubmitButton"] button:hover {
+
+        background: linear-gradient(135deg, #6366F1, #A855F7) !important;
+        color: white !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 14px rgba(139,92,246,0.35);
+    }
+
+    </style>
+    """,
         unsafe_allow_html=True,
     )
 
-    if st.session_state.chat_history:
+    with st.form("coach_form", clear_on_submit=True):
 
-        recent = st.session_state.chat_history[-6:]
+        user_input = st.text_input(
+            "Ask your coach...",
+            placeholder="Ask about workouts, recipes, videos, recovery...",
+            label_visibility="visible",
+        )
 
-        for msg in recent:
-            role = "🧑 You" if msg["role"] == "user" else "🤖 Coach"
-            with st.expander(role, expanded=False):
-                st.markdown(msg["content"])
+        submitted = st.form_submit_button(
+            "🚀 Get Guidance",
+            use_container_width=True,
+        )
+    # =========================
+    # PROCESS INPUT
+    # =========================
+    if submitted and user_input.strip():
 
-    else:
-        st.info("No conversations yet.")
+        profile = get_user_profile()
 
+        enhanced_query = f"""
+        {user_input}
 
+        IMPORTANT INSTRUCTIONS:
+
+        - Correct spelling mistakes automatically
+        - Understand typo errors naturally
+        - Reply like ChatGPT
+
+        - If the user asks for:
+            workout videos
+            yoga videos
+            recipe videos
+            HIIT videos
+            gym tutorials
+
+        THEN provide 3 clickable YouTube links.
+
+        Example:
+        https://www.youtube.com/results?search_query=10+minute+hiit+workout
+
+        Keep answers practical and concise.
+        """
+
+        reply = coach_reply(enhanced_query, profile)
+
+        st.session_state.chat_history.append(
+            {
+                "role": "user",
+                "content": user_input,
+            }
+        )
+
+        st.session_state.chat_history.append(
+            {
+                "role": "assistant",
+                "content": reply,
+            }
+        )
+
+        st.session_state.recent_chats.insert(0, user_input)
+
+        st.rerun()
+
+    # =========================
+    # RECENT CHATS
+    # =========================
+    if st.session_state.recent_chats:
+
+        st.markdown("<br><br>", unsafe_allow_html=True)
+
+        st.markdown(
+            """
+            <h2 style="
+            color:white;
+            font-weight:800;
+            margin-bottom:20px;
+            ">
+            🕘 Recent Chats
+            </h2>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        unique_recent = []
+
+        for chat in st.session_state.recent_chats:
+            if chat not in unique_recent:
+                unique_recent.append(chat)
+
+        for idx, chat in enumerate(unique_recent[:6]):
+
+            with st.expander(
+                f"💬 {chat[:55]}...",
+                expanded=False,
+            ):
+                st.markdown(
+                    f"""
+                    <div style="
+                    color:white;
+                    line-height:1.8;
+                    font-size:15px;
+                    ">
+                    {chat}
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
 # =========================
 # WELLNESS PAGE
 # =========================
 elif page == "Wellness":
 
-    st.subheader("🌿 Wellness & Recovery")
+    st.markdown(
+        """
+<div style="
+background:rgba(99,102,241,0.10);
+padding:20px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.06);
+margin-bottom:25px;
+">
 
+<h3 style="color:white;">
+🌿 Wellness & Recovery
+</h3>
+
+<p style="
+color:#d1d5db;
+font-size:15px;
+line-height:1.7;
+margin-bottom:0;
+">
+Improve recovery, reduce stress and build
+        healthier daily wellness habits.
+</p>
+
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+    # =========================
+    # TABS
+    # =========================
     tab1, tab2, tab3 = st.tabs(
-        ["🧘 Stress Relief", "👁️ Eye Care", "💊 Wellness Support"]
+        [
+            "🧘 Stress Relief",
+            "👁️ Eye Care",
+            "💊 Wellness Support",
+        ]
     )
 
-    # =========================================================
-    # STRESS RELIEF
-    # =========================================================
+    # =====================================================
+    # STRESS RELIEF TAB
+    # =====================================================
     with tab1:
 
-        st.image(
-            "https://images.unsplash.com/photo-1506126613408-eca07ce68773",
-            width=700,
-        )
+        # =========================
+        # CENTER IMAGE
+        # =========================
+        left, center, right = st.columns([1, 2.2, 1])
+
+        with center:
+            st.image(
+                "https://images.unsplash.com/photo-1506126613408-eca07ce68773",
+                use_container_width=True,
+            )
 
         st.markdown("<br>", unsafe_allow_html=True)
 
+        # =========================
+        # CONTENT CARD
+        # =========================
         st.markdown(
             """
             <div style="
             background:rgba(255,255,255,0.04);
-            padding:18px;
-            border-radius:16px;
+            padding:20px;
+            border-radius:18px;
             border:1px solid rgba(255,255,255,0.08);
             margin-bottom:18px;
             ">
-            <h3 style='margin-top:0px;'>🧘 AI Stress Relief</h3>
-            <p style='opacity:0.8; margin-bottom:0px;'>
-            Get personalized recovery & stress management suggestions.
+
+            <h3 style="
+            color:white;
+            margin-top:0;
+            ">
+            🧘 Stress Relief & Recovery
+            </h3>
+
+            <p style="
+            color:#d1d5db;
+            line-height:1.8;
+            margin-bottom:0;
+            ">
+            Improve focus, calm your mind and recover better
+            with breathing exercises and mindfulness guidance.
             </p>
+
             </div>
             """,
             unsafe_allow_html=True,
         )
 
-        if st.button("🧘 Generate Relaxation Plan", use_container_width=True):
-            profile = st.session_state.get("profile_data", "No profile")
+        if st.button(
+            "🧘 Generate Relaxation Tips",
+            use_container_width=True,
+        ):
+
+            profile = st.session_state.get("profile_data", {})
             result = stress_relief(profile)
+
             st.session_state["stress_result"] = result
 
         if "stress_result" in st.session_state:
 
             st.markdown(
-                "<h3 style='margin-bottom:10px;'>🌿 Your Recovery Plan</h3>",
+                """
+                <h2 style="
+                margin-bottom:12px;
+                color:white;
+                ">
+                🌿 Your Wellness Guidance
+                </h2>
+                """,
                 unsafe_allow_html=True,
             )
+
             st.markdown(
                 f"""
                 <div style="
                 background:rgba(255,255,255,0.04);
-                padding:18px;
-                border-radius:16px;
+                padding:22px;
+                border-radius:18px;
                 border:1px solid rgba(255,255,255,0.08);
+                color:white;
+                line-height:1.8;
                 ">
                 {st.session_state["stress_result"]}
                 </div>
@@ -1698,15 +2326,21 @@ elif page == "Wellness":
                 unsafe_allow_html=True,
             )
 
-    # =========================================================
-    # EYE CARE
-    # =========================================================
+    # =====================================================
+    # EYE CARE TAB
+    # =====================================================
     with tab2:
 
-        st.image(
-            "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
-            width=700,
-        )
+        # =========================
+        # CENTER IMAGE
+        # =========================
+        left, center, right = st.columns([1, 2.2, 1])
+
+        with center:
+            st.image(
+                "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+                use_container_width=True,
+            )
 
         st.markdown("<br>", unsafe_allow_html=True)
 
@@ -1714,39 +2348,77 @@ elif page == "Wellness":
             """
             <div style="
             background:rgba(255,255,255,0.04);
-            padding:18px;
-            border-radius:16px;
+            padding:20px;
+            border-radius:18px;
             border:1px solid rgba(255,255,255,0.08);
             margin-bottom:18px;
             ">
-            <h3 style='margin-top:0px;'>👁️ Daily Eye Care</h3>
-            <ul style='margin-bottom:0px;'>
-                <li>Follow the 20-20-20 rule</li>
-                <li>Blink frequently</li>
-                <li>Reduce screen brightness</li>
-                <li>Use proper lighting</li>
-                <li>Sleep 7–8 hours</li>
+
+            <h3 style="
+            color:white;
+            margin-top:0;
+            ">
+            👁️ Eye Wellness
+            </h3>
+
+            <p style="
+            color:#d1d5db;
+            line-height:1.8;
+            ">
+            Reduce digital eye strain and improve visual comfort
+            with healthier screen habits and recovery routines.
+            </p>
+
+            <ul style="
+            color:#d1d5db;
+            line-height:1.9;
+            margin-bottom:0;
+            ">
+            <li>Follow the 20-20-20 rule</li>
+            <li>Reduce screen brightness</li>
+            <li>Improve room lighting</li>
+            <li>Blink frequently</li>
+            <li>Prioritize quality sleep</li>
             </ul>
+
             </div>
             """,
             unsafe_allow_html=True,
         )
 
-        if st.button("👁️ Get Personalized Eye Tips", use_container_width=True):
+        if st.button(
+            "👁️ Get Eye Care Tips",
+            use_container_width=True,
+        ):
+
             profile = st.session_state.get("profile_data", {})
             result = generate_eye_care(profile)
+
             st.session_state["eye_tips"] = result
 
         if "eye_tips" in st.session_state:
 
-            st.success("👁️ Personalized eye-care recommendations generated")
+            st.markdown(
+                """
+                <h2 style="
+                margin-bottom:12px;
+                color:white;
+                ">
+                👁️ Personalized Eye Care
+                </h2>
+                """,
+                unsafe_allow_html=True,
+            )
+
             st.markdown(
                 f"""
                 <div style="
                 background:rgba(255,255,255,0.04);
-                padding:18px;
-                border-radius:16px;
+                padding:22px;
+                border-radius:18px;
                 border:1px solid rgba(255,255,255,0.08);
+                color:white;
+                line-height:1.8;
                 ">
                 {st.session_state["eye_tips"]}
                 </div>
@@ -1754,15 +2426,21 @@ elif page == "Wellness":
                 unsafe_allow_html=True,
             )
 
-    # =========================================================
-    # WELLNESS SUPPORT
-    # =========================================================
+    # =====================================================
+    # WELLNESS SUPPORT TAB
+    # =====================================================
     with tab3:
 
-        st.image(
-            "https://images.unsplash.com/photo-1498837167922-ddd27525d352",
-            width=700,
-        )
+        # =========================
+        # CENTER IMAGE
+        # =========================
+        left, center, right = st.columns([1, 2.2, 1])
+
+        with center:
+            st.image(
+                "https://images.unsplash.com/photo-1498837167922-ddd27525d352",
+                use_container_width=True,
+            )
 
         st.markdown("<br>", unsafe_allow_html=True)
 
@@ -1770,22 +2448,45 @@ elif page == "Wellness":
             """
             <div style="
             background:rgba(255,255,255,0.04);
-            padding:18px;
-            border-radius:16px;
+            padding:20px;
+            border-radius:18px;
             border:1px solid rgba(255,255,255,0.08);
             ">
-            <h3 style='margin-top:0px;'>💊 General Wellness Support</h3>
-            <p style='opacity:0.8;'>Non-medical wellness suggestions for recovery & daily health.</p>
-            <ul>
-                <li>Magnesium → supports relaxation</li>
-                <li>Herbal tea → supports stress relief</li>
-                <li>Electrolytes → supports hydration</li>
-                <li>Vitamin B12 → supports energy</li>
-                <li>Omega-3 → supports brain health</li>
-            </ul>
-            <p style='opacity:0.7; margin-bottom:0px;'>
-            ⚠️ Always consult a professional before supplements
+
+            <h3 style="
+            color:white;
+            margin-top:0;
+            ">
+            💊 Wellness Support
+            </h3>
+
+            <p style="
+            color:#d1d5db;
+            line-height:1.8;
+            ">
+            Build sustainable recovery habits that support
+            better energy, sleep and overall wellbeing.
             </p>
+
+            <ul style="
+            color:#d1d5db;
+            line-height:1.9;
+            ">
+            <li>Hydration & electrolytes</li>
+            <li>Sleep recovery support</li>
+            <li>Stress management habits</li>
+            <li>Mindfulness & breathing</li>
+            <li>Healthy recovery nutrition</li>
+            </ul>
+
+            <p style="
+            color:#9ca3af;
+            margin-bottom:0;
+            ">
+            ⚠️ Wellness suggestions are informational only
+            and not medical advice.
+            </p>
+
             </div>
             """,
             unsafe_allow_html=True,
