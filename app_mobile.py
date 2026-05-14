@@ -19,9 +19,9 @@ from ai_engine import (
     generate_eye_care,
 )
 from openai import OpenAI
-import os
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 
@@ -68,661 +68,165 @@ details {
 # =========================
 # GLOBAL CSS
 # =========================
-
 st.markdown(
     """
 <style>
 
-/* =========================
-APP BACKGROUND
-========================= */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #081028, #0b1736) !important;
+    border-right: 1px solid rgba(255,255,255,0.06);
+}
+div[data-testid="collapsedControl"] {
+    display: none !important;
+}
 
 .stApp {
-    background:
-    linear-gradient(
-        135deg,
-        #0f172a,
-        #111827
-    );
+    background: linear-gradient(135deg, #0b1220, #111827);
     color: white;
 }
 
-/* MAIN CONTAINER */
 .main .block-container {
-
-    max-width: 1150px;
-
+    max-width: 1200px;
     padding-top: 1rem;
-
     padding-left: 1rem;
     padding-right: 1rem;
+    padding-bottom: 2rem;
 }
-
-/* =========================
-CUSTOM MOBILE SIDEBAR
-========================= */
-
-.mobile-sidebar {
-
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 82vw;
-    height: 100vh;
-
-    z-index: 999999;
-
-    padding: 20px;
-
-    background:
-    linear-gradient(
-        180deg,
-        #081028,
-        #0b1736
-    );
-
-    overflow-y: auto;
-
-    box-shadow:
-    0 0 40px rgba(0,0,0,0.5);
-}
-
-/* MENU BUTTON */
-
-button[kind="secondary"] {
-
-    background:
-    linear-gradient(
-        90deg,
-        #5B5FEF,
-        #8B5CF6
-    ) !important;
-
-    color: white !important;
-
-    border-radius: 14px !important;
-
-    border: none !important;
-}
-
-/* =========================
-SIDEBAR
-========================= */
-
-section[data-testid="stSidebar"] {
-
-    background:
-    linear-gradient(
-        180deg,
-        #081028,
-        #0b1736
-    ) !important;
-
-    border-right:
-    1px solid rgba(255,255,255,0.05);
-
-    transition:
-    all 0.3s ease-in-out;
-}
-
-/* SIDEBAR CONTAINER */
-
-section[data-testid="stSidebar"] .block-container {
-
-    padding-top: 1rem !important;
-
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-
-    padding-bottom: 1rem !important;
-}
-
-/* ALL SIDEBAR TEXT */
-
-section[data-testid="stSidebar"] * {
-    color: white !important;
-}
-
-/* =========================
-MOBILE MENU BUTTON
-========================= */
-
-div.stButton > button[kind="secondary"] {
-
-    background:
-    linear-gradient(
-        90deg,
-        #5B5FEF,
-        #8B5CF6
-    ) !important;
-
-    color: white !important;
-
-    border-radius: 14px !important;
-
-    border: none !important;
-
-    font-weight: 700 !important;
-
-    height: 44px !important;
-}
-
-/* =========================
-MOBILE SIDEBAR
-========================= */
-
-@media (max-width: 768px) {
-
-    section[data-testid="stSidebar"][aria-expanded="true"] {
-
-        width: 82vw !important;
-        min-width: 82vw !important;
-    }
-
-    .main .block-container {
-
-        padding-left: 0.8rem !important;
-        padding-right: 0.8rem !important;
-    }
-}
-
-/* =========================
-SIDEBAR LOGO
-========================= */
-
-.sidebar-logo {
-
-    margin-bottom: 8px !important;
-}
-
-.sidebar-title {
-
-    margin-bottom: 0px !important;
-}
-
-.sidebar-divider {
-
-    margin-top: 14px !important;
-    margin-bottom: 14px !important;
-
-    opacity: 0.08;
-}
-
-/* =========================
-RADIO GROUP
-========================= */
-
-section[data-testid="stSidebar"] .stRadio > div {
-
-    background: transparent !important;
-
-    border: none !important;
-
-    padding: 0 !important;
-}
-
-/* RADIO GAP */
-
-section[data-testid="stSidebar"] div[role="radiogroup"] {
-
-    gap: 10px;
-}
-
-/* BUTTON STYLE */
-
-section[data-testid="stSidebar"] label[data-baseweb="radio"] {
-
-    width: 100% !important;
-
-    min-height: 44px !important;
-
-    display: flex !important;
-
-    align-items: center !important;
-
-    padding:
-    8px 14px !important;
-
-    border-radius: 18px !important;
-
-    background:
-    rgba(99,102,241,0.16);
-
-    border:
-    1px solid rgba(255,255,255,0.08);
-
-    transition:
-    all 0.25s ease;
-
-    box-sizing:
-    border-box !important;
-
-    margin-bottom:
-    10px !important;
-}
-
-/* ACTIVE PAGE */
-
-section[data-testid="stSidebar"]
-label[data-baseweb="radio"][aria-checked="true"] {
-
-    background:
-    linear-gradient(
-        90deg,
-        #5B5FEF,
-        #8B5CF6
-    ) !important;
-
-    border:
-    1px solid rgba(255,255,255,0.15) !important;
-
-    box-shadow:
-    0 6px 18px rgba(99,102,241,0.25);
-}
-
-/* HOVER */
-
-section[data-testid="stSidebar"]
-label[data-baseweb="radio"]:hover {
-
-    background:
-    linear-gradient(
-        90deg,
-        #5B5FEF,
-        #8B5CF6
-    );
-
-    transform:
-    scale(1.01);
-}
-
-/* TEXT */
-
-section[data-testid="stSidebar"]
-label[data-baseweb="radio"] span {
-
-    color: white !important;
-
-    font-size: 15px !important;
-
-    font-weight: 600 !important;
-}
-
-/* RADIO DOT */
-
-section[data-testid="stSidebar"]
-input[type="radio"] {
-
-    accent-color: #ffffff;
-}
-
-/* =========================
-HEADINGS
-========================= */
-
-h1, h2, h3, h4, h5, h6, label {
-    color: white !important;
-}
-
-/* =========================
-BUTTONS
-========================= */
 
 .stButton > button {
-
-    background:
-    linear-gradient(
-        90deg,
-        #5B5FEF,
-        #8B5CF6
-    ) !important;
-
+    background: linear-gradient(90deg, #6366f1, #8b5cf6) !important;
     color: white !important;
-
     border: none !important;
-
     border-radius: 14px !important;
-
-    width: 100% !important;
-
-    height: 52px !important;
-
     font-weight: 700 !important;
-
-    font-size: 16px !important;
-
-    transition:
-    all 0.25s ease !important;
-
-    opacity: 1 !important;
-
-    visibility: visible !important;
+    transition: 0.25s ease !important;
 }
-
-/* BUTTON HOVER */
-
 .stButton > button:hover {
-
-    background:
-    linear-gradient(
-        90deg,
-        #4F46E5,
-        #7C3AED
-    ) !important;
-
-    transform:
-    scale(1.01);
+    background: linear-gradient(90deg, #4f46e5, #7c3aed) !important;
+    transform: scale(1.01);
 }
 
-/* DOWNLOAD BUTTON */
+.sidebar-logo { margin-bottom: 10px !important; }
+.sidebar-title { color: white; font-size: 28px; font-weight: 800; margin-bottom: 0px !important; }
+.sidebar-subtitle { color: #9ca3af; margin-top: 4px !important; font-size: 14px; }
+.sidebar-divider { margin-top: 16px !important; margin-bottom: 18px !important; opacity: 0.08; }
 
-div.stDownloadButton > button {
+div[role="radiogroup"] { gap: 10px !important; }
 
-    background:
-    linear-gradient(
-        90deg,
-        #6366f1,
-        #8b5cf6
-    ) !important;
-
+label[data-baseweb="radio"] {
+    width: 100% !important;
+    min-height: 46px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 8px 14px !important;
+    border-radius: 18px !important;
+    background: rgba(99,102,241,0.14);
+    border: 1px solid rgba(255,255,255,0.07);
+    transition: all 0.25s ease;
+    margin-bottom: 10px !important;
+}
+label[data-baseweb="radio"][aria-checked="true"] {
+    background: linear-gradient(90deg, #5B5FEF, #8B5CF6) !important;
+    box-shadow: 0 6px 18px rgba(99,102,241,0.24);
+}
+label[data-baseweb="radio"]:hover {
+    background: linear-gradient(90deg, #5B5FEF, #8B5CF6);
+    transform: scale(1.01);
+}
+label[data-baseweb="radio"] span {
     color: white !important;
-
-    border-radius: 10px !important;
-
-    border: none !important;
-
+    font-size: 15px !important;
     font-weight: 600 !important;
 }
+input[type="radio"] { accent-color: white !important; }
 
-/* =========================
-INPUTS
-========================= */
+h1, h2, h3, h4, h5, h6, label { color: white !important; }
 
-input,
-textarea {
-
-    background-color:
-    #0e2a47 !important;
-
-    color:
-    white !important;
-
-    border:
-    1px solid rgba(255,255,255,0.2) !important;
-
-    border-radius:
-    12px !important;
+input, textarea {
+    background-color: #0e2a47 !important;
+    color: white !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    border-radius: 12px !important;
 }
-
-input::placeholder,
-textarea::placeholder {
-
-    color:
-    #aaa !important;
-}
-
+input::placeholder, textarea::placeholder { color: #aaa !important; }
 div[data-baseweb="input"] > div {
-
-    background-color:
-    #0e2a47 !important;
-
-    border-radius:
-    12px;
+    background-color: #0e2a47 !important;
+    border-radius: 12px;
 }
-
-div[data-baseweb="input"] input:focus {
-
-    outline: none !important;
-
-    border:
-    1px solid #6366f1 !important;
-}
-
-/* SELECT BOX */
 
 div[data-baseweb="select"] > div {
-
-    background-color:
-    #0e2a47 !important;
-
-    color:
-    white !important;
-
-    border-radius:
-    10px;
+    background-color: #0e2a47 !important;
+    color: white !important;
+    border-radius: 12px !important;
 }
-
-/* =========================
-CARDS
-========================= */
 
 .card {
-
-    background:
-    rgba(255,255,255,0.06);
-
+    background: rgba(255,255,255,0.06);
     padding: 16px;
-
-    border-radius: 14px;
-
-    border:
-    1px solid rgba(255,255,255,0.08);
-
-    backdrop-filter:
-    blur(8px);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
 }
 
-/* =========================
-IMAGES
-========================= */
-
-img {
-
-    border-radius: 18px;
-
-    object-fit: cover;
-}
-
-/* =========================
-PROGRESS BAR
-========================= */
-
-.stProgress > div > div {
-
-    background:
-    linear-gradient(
-        90deg,
-        #22c55e,
-        #4ade80
-    );
-}
-
-/* =========================
-CHAT BUBBLES
-========================= */
+img { border-radius: 18px; object-fit: cover; }
 
 .user-bubble {
-
-    background:
-    linear-gradient(
-        90deg,
-        #6366f1,
-        #8b5cf6
-    );
-
-    padding:
-    12px 16px;
-
-    border-radius:
-    18px 18px 4px 18px;
-
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    padding: 12px 16px;
+    border-radius: 18px 18px 4px 18px;
     color: white;
-
     margin: 10px 0;
-
     max-width: 75%;
-
     width: fit-content;
-
     margin-left: auto;
-
     font-size: 15px;
-
     line-height: 1.7;
 }
-
 .bot-bubble {
-
-    background:
-    rgba(255,255,255,0.08);
-
+    background: rgba(255,255,255,0.08);
     padding: 16px;
-
-    border-radius:
-    18px 18px 18px 4px;
-
+    border-radius: 18px 18px 18px 4px;
     color: white;
-
     margin: 10px 0;
-
     max-width: 85%;
-
     width: fit-content;
-
     line-height: 1.8;
-
-    border:
-    1px solid rgba(255,255,255,0.06);
-
-    backdrop-filter:
-    blur(10px);
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
 }
-
-/* LINKS */
-
-.bot-bubble a {
-
-    color: white !important;
-
-    text-decoration: underline;
-}
-
-/* =========================
-EXPANDERS
-========================= */
+.bot-bubble a { color: white !important; text-decoration: underline !important; }
 
 .streamlit-expanderHeader {
-
-    background:
-    rgba(255,255,255,0.05) !important;
-
-    color:
-    white !important;
-
-    border-radius:
-    12px !important;
-
-    border:
-    1px solid rgba(255,255,255,0.08) !important;
+    background: rgba(255,255,255,0.05) !important;
+    color: white !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
 }
-
 .streamlit-expanderContent {
-
-    background:
-    rgba(255,255,255,0.03) !important;
-
-    border-radius:
-    0px 0px 12px 12px !important;
-
-    color:
-    white !important;
-}
-
-/* =========================
-ALERTS
-========================= */
-
-div[data-testid="stAlert"] {
+    background: rgba(255,255,255,0.03) !important;
+    border-radius: 0px 0px 12px 12px !important;
     color: white !important;
 }
 
-.stAlert p {
-    color: white !important;
-}
-
-/* =========================
-TEXT
-========================= */
-
-p {
-    color: white !important;
-}
-
-details {
-    color: white !important;
-}
-
-details p {
-    color: white !important;
-}
-
-/* =========================
-FILE UPLOADER
-========================= */
-
-div[data-testid="stFileUploader"] {
-
-    background-color:
-    transparent !important;
-}
-
-/* =========================
-MOBILE RESPONSIVE
-========================= */
+p, span, details { color: white !important; }
 
 @media (max-width: 768px) {
-
-    h1 {
-        font-size: 28px !important;
+    .main .block-container {
+        padding-left: 0.7rem !important;
+        padding-right: 0.7rem !important;
     }
-
-    h2 {
-        font-size: 24px !important;
-    }
-
-    h3 {
-        font-size: 20px !important;
-    }
-
-    .stButton button {
-
-        height: 42px;
-
-        font-size: 14px;
-    }
-
-    .user-bubble,
-    .bot-bubble {
-
-        max-width: 95%;
-
-        font-size: 14px;
-    }
-}
-
-/* HIDE UNUSED */
-
-.stat-card {
-    display: none;
+    h1 { font-size: 28px !important; }
+    h2 { font-size: 24px !important; }
+    h3 { font-size: 20px !important; }
+    .user-bubble, .bot-bubble { max-width: 95%; font-size: 14px; }
+    label[data-baseweb="radio"] { min-height: 42px !important; padding: 6px 12px !important; }
+    label[data-baseweb="radio"] span { font-size: 14px !important; }
 }
 
 </style>
 """,
     unsafe_allow_html=True,
 )
-
 
 # =========================
 # SESSION STATE DEFAULTS
@@ -743,6 +247,24 @@ if "ai_memory" not in st.session_state:
         "diet_history": [],
         "coach_history": [],
     }
+if "profile_data" not in st.session_state:
+    st.session_state["profile_data"] = {}
+if "progress_data" not in st.session_state:
+    st.session_state["progress_data"] = {}
+if "water" not in st.session_state:
+    st.session_state["water"] = 0
+if "sleep" not in st.session_state:
+    st.session_state["sleep"] = 0
+if "stress" not in st.session_state:
+    st.session_state["stress"] = 0
+if "energy" not in st.session_state:
+    st.session_state["energy"] = 0
+if "mood" not in st.session_state:
+    st.session_state["mood"] = None
+if "analytics_data" not in st.session_state:
+    st.session_state["analytics_data"] = []
+if "show_menu" not in st.session_state:
+    st.session_state.show_menu = False
 
 # =========================
 # HELPER FUNCTIONS
@@ -837,166 +359,62 @@ def extract_links(text):
 
 
 # =========================
-# SESSION STATE DEFAULTS
-# =========================
-if "profile_data" not in st.session_state:
-    st.session_state["profile_data"] = {}
-
-if "progress_data" not in st.session_state:
-    st.session_state["progress_data"] = {}
-
-if "water" not in st.session_state:
-    st.session_state["water"] = 0
-
-if "sleep" not in st.session_state:
-    st.session_state["sleep"] = 0
-
-if "stress" not in st.session_state:
-    st.session_state["stress"] = 0
-
-if "energy" not in st.session_state:
-    st.session_state["energy"] = 0
-
-if "mood" not in st.session_state:
-    st.session_state["mood"] = None
-
-if "analytics_data" not in st.session_state:
-    st.session_state["analytics_data"] = []
-
-# =========================
-# MOBILE MENU BUTTON
-# =========================
-
-menu_col1, menu_col2 = st.columns([1, 5])
-
-with menu_col1:
-
-    if st.button("☰ Menu", key="mobile_menu"):
-        st.session_state.show_sidebar = True
-
-if "show_sidebar" not in st.session_state:
-    st.session_state.show_sidebar = False
-
-# =========================
-# SIDEBAR NAVIGATION
-# =========================
-
-# =========================
-# MOBILE NAVIGATION
-# =========================
-
-if "show_menu" not in st.session_state:
-    st.session_state.show_menu = False
-
-# =========================
 # TOP MENU BUTTON
 # =========================
-
 col1, col2 = st.columns([1, 5])
 
 with col1:
-
-    if st.button("☰", key="menu_toggle"):
+    if st.button("☰ Menu", key="menu_toggle"):
         st.session_state.show_menu = not st.session_state.show_menu
-
-# =========================
-# SIDEBAR DRAWER
-# =========================
-
-if st.session_state.show_menu:
-
-    st.markdown(
-        """
-        <div class="mobile-sidebar">
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.image(LOGO_URL, width=110)
-
-    st.markdown(
-        """
-        <h1 style="
-        color:white;
-        font-size:30px;
-        margin-bottom:0px;
-        ">
-        ⚡ AIVioMate
-        </h1>
-
-        <p style="
-        color:#9ca3af;
-        margin-top:6px;
-        font-size:15px;
-        ">
-        AI Wellness Companion
-        </p>
-        <br>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    tabs = [
-        "Profile",
-        "Dashboard",
-        "Workout",
-        "Nutrition",
-        "Coach",
-        "Wellness",
-    ]
-
-    for tab in tabs:
-
-        active = tab == st.session_state.page
-
-        if st.button(
-            tab,
-            key=f"nav_{tab}",
-            use_container_width=True,
-            type="primary" if active else "secondary",
-        ):
-
-            st.session_state.page = tab
-
-            # AUTO CLOSE MENU
-            st.session_state.show_menu = False
-
-            st.rerun()
-
-    st.markdown("</div>", unsafe_allow_html=True)
-
-    page = st.session_state.page
-    st.markdown("---")
-
-    tabs = [
-        "Profile",
-        "Dashboard",
-        "Workout",
-        "Nutrition",
-        "Coach",
-        "Wellness",
-    ]
-
-    selected_page = st.radio(
-        "",
-        tabs,
-        index=tabs.index(st.session_state.page),
-        label_visibility="collapsed",
-    )
-
-    # =========================
-    # PAGE CHANGE
-    # =========================
-
-    if selected_page != st.session_state.page:
-
-        st.session_state.page = selected_page
-
-        # AUTO CLOSE SIDEBAR
-        st.session_state.show_sidebar = False
-
         st.rerun()
 
+st.markdown("---")
+
+# =========================
+# MOBILE SIDEBAR
+# =========================
+if st.session_state.show_menu:
+    with st.sidebar:
+        st.image(LOGO_URL, width=90)
+        st.markdown(
+            """
+            <h2 style="color:white; margin-bottom:0; font-size:30px;">
+            ⚡ AIVioMate
+            </h2>
+            <p style="color:#9ca3af; margin-top:4px; font-size:14px;">
+            AI Wellness Companion
+            </p>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.markdown("---")
+
+        tabs = [
+            "Profile",
+            "Dashboard",
+            "Workout",
+            "Nutrition",
+            "Coach",
+            "Wellness",
+        ]
+
+        for tab in tabs:
+            active = st.session_state.page == tab
+            if st.button(
+                f"🔴 {tab}" if active else f"⚪ {tab}",
+                key=f"mobile_nav_{tab}",
+                use_container_width=True,
+            ):
+                st.session_state.page = tab
+                st.session_state.show_menu = False
+                st.rerun()
+
+        st.markdown("---")
+        st.caption("Train smarter • Recover better")
+
+# =========================
+# CURRENT PAGE
+# =========================
 page = st.session_state.page
 
 # =========================
