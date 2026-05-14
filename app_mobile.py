@@ -157,7 +157,26 @@ div[data-baseweb="select"] > div {
     color: white !important;
     border-radius: 12px !important;
 }
+/* =========================
+   MOBILE SIDEBAR FIX
+========================= */
 
+div[data-testid="collapsedControl"] {
+    display: block !important;
+    position: fixed !important;
+    top: 72px !important;
+    left: 14px !important;
+    z-index: 999999 !important;
+    background: linear-gradient(90deg,#6366f1,#8b5cf6) !important;
+    border-radius: 12px !important;
+    padding: 6px 10px !important;
+}
+
+div[data-testid="collapsedControl"] svg {
+    color: white !important;
+    width: 22px !important;
+    height: 22px !important;
+}
 .card {
     background: rgba(255,255,255,0.06);
     padding: 16px;
@@ -355,7 +374,7 @@ def extract_links(text):
 
 
 # =========================
-# TOP BAR
+# MOBILE HEADER
 # =========================
 
 st.markdown(
@@ -363,20 +382,23 @@ st.markdown(
     <div style="
     display:flex;
     align-items:center;
-    gap:10px;
-    margin-bottom:10px;
+    gap:12px;
+    margin-bottom:22px;
+    margin-top:8px;
+    padding-left:6px;
     ">
-        <h2 style="
+        <h1 style="
         color:white;
         margin:0;
+        font-size:32px;
+        font-weight:800;
         ">
-        ☰ AIVioMate
-        </h2>
+        AIVioMate
+        </h1>
     </div>
     """,
     unsafe_allow_html=True,
 )
-
 # =========================
 # MOBILE SIDEBAR
 # =========================
