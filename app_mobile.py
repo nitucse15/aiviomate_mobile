@@ -76,9 +76,7 @@ section[data-testid="stSidebar"] {
     background: linear-gradient(180deg, #081028, #0b1736) !important;
     border-right: 1px solid rgba(255,255,255,0.06);
 }
-div[data-testid="collapsedControl"] {
-    display: none !important;
-}
+
 
 .stApp {
     background: linear-gradient(135deg, #0b1220, #111827);
@@ -263,8 +261,6 @@ if "mood" not in st.session_state:
     st.session_state["mood"] = None
 if "analytics_data" not in st.session_state:
     st.session_state["analytics_data"] = []
-if "show_menu" not in st.session_state:
-    st.session_state.show_menu = False
 
 # =========================
 # HELPER FUNCTIONS
@@ -359,59 +355,76 @@ def extract_links(text):
 
 
 # =========================
-# TOP MENU BUTTON
+# TOP BAR
 # =========================
-col1, col2 = st.columns([1, 5])
 
-with col1:
-    if st.button("☰ Menu", key="menu_toggle"):
-        st.session_state.show_menu = not st.session_state.show_menu
-        st.rerun()
-
-st.markdown("---")
+st.markdown(
+    """
+    <div style="
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:10px;
+    ">
+        <h2 style="
+        color:white;
+        margin:0;
+        ">
+        ☰ AIVioMate
+        </h2>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 # =========================
 # MOBILE SIDEBAR
 # =========================
-if st.session_state.show_menu:
-    with st.sidebar:
-        st.image(LOGO_URL, width=90)
-        st.markdown(
-            """
-            <h2 style="color:white; margin-bottom:0; font-size:30px;">
-            ⚡ AIVioMate
-            </h2>
-            <p style="color:#9ca3af; margin-top:4px; font-size:14px;">
-            AI Wellness Companion
-            </p>
-            """,
-            unsafe_allow_html=True,
-        )
-        st.markdown("---")
 
-        tabs = [
-            "Profile",
-            "Dashboard",
-            "Workout",
-            "Nutrition",
-            "Coach",
-            "Wellness",
-        ]
+with st.sidebar:
 
-        for tab in tabs:
-            active = st.session_state.page == tab
-            if st.button(
-                f"🔴 {tab}" if active else f"⚪ {tab}",
-                key=f"mobile_nav_{tab}",
-                use_container_width=True,
-            ):
-                st.session_state.page = tab
-                st.session_state.show_menu = False
-                st.rerun()
+    st.image(LOGO_URL, width=90)
 
-        st.markdown("---")
-        st.caption("Train smarter • Recover better")
+    st.markdown(
+        """
+        <h2 style="color:white; margin-bottom:0; font-size:30px;">
+        ⚡ AIVioMate
+        </h2>
 
+        <p style="color:#9ca3af; margin-top:4px; font-size:14px;">
+        AI Wellness Companion
+        </p>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown("---")
+
+    tabs = [
+        "Profile",
+        "Dashboard",
+        "Workout",
+        "Nutrition",
+        "Coach",
+        "Wellness",
+    ]
+
+    for tab in tabs:
+
+        active = st.session_state.page == tab
+
+        if st.button(
+            f"🔴 {tab}" if active else f"⚪ {tab}",
+            key=f"mobile_nav_{tab}",
+            use_container_width=True,
+        ):
+
+            st.session_state.page = tab
+            st.rerun()
+
+    st.markdown("---")
+
+    st.caption("Train smarter • Recover better")
 # =========================
 # CURRENT PAGE
 # =========================
