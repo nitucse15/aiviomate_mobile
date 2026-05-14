@@ -18,6 +18,10 @@ from ai_engine import (
     generate_zumba,
     generate_eye_care,
 )
+from openai import OpenAI
+import os
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 
