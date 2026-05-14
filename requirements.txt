@@ -1,7 +1,6 @@
+openai>=1.30.0
 streamlit
 pandas
-numpy
 plotly
-opencv-python-headless
-altair
 reportlab
+python-dotenv
