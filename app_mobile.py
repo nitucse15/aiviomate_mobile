@@ -6,8 +6,8 @@ from io import BytesIO
 from datetime import date
 import cv2
 import streamlit as st
-import pandas as pd
 import numpy as np
+import pandas as pd
 import altair as alt
 import base64
 from ai_engine import (
@@ -19,7 +19,6 @@ from ai_engine import (
     generate_eye_care,
 )
 from openai import OpenAI
-import os
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 from reportlab.platypus import SimpleDocTemplate, Paragraph
@@ -794,16 +793,13 @@ if "mood" not in st.session_state:
 if "analytics_data" not in st.session_state:
     st.session_state["analytics_data"] = []
 
-if "show_sidebar" not in st.session_state:
-    st.session_state.show_sidebar = False
-
 # =========================
 # SIDEBAR NAVIGATION
 # =========================
 
 with st.sidebar:
 
-    st.image(LOGO_URL, width=110)
+    st.image(LOGO_URL, width=95)
 
     st.markdown(
         """
@@ -860,9 +856,6 @@ with st.sidebar:
 
         st.session_state.page = selected_page
 
-        # AUTO CLOSE SIDEBAR
-        st.session_state.show_sidebar = False
-
         st.rerun()
 
 page = st.session_state.page
@@ -890,10 +883,24 @@ st.markdown(
 # =========================
 if page == "Profile":
 
+    defaults = {
+        "age_input": "",
+        "gender_input": "Select",
+        "height_input": "",
+        "weight_input": "",
+        "goal_input": "Select Goal",
+        "level_input": "Select Level",
+        "lifestyle_input": "Select Lifestyle",
+    }
+
+    for k, v in defaults.items():
+        st.session_state.setdefault(k, v)
+
+    st.markdown(f"# {st.session_state.page}")
+
     # =========================
     # HERO CARD
     # =========================
-
     st.markdown(
         """
 <div style="
@@ -915,130 +922,21 @@ line-height:1.7;
 margin-bottom:0;
 ">
 Your AI-powered wellness companion for fitness,
-        nutrition, recovery & performance tracking.
+nutrition, recovery & performance tracking.
 </p>
 
 </div>
 """,
         unsafe_allow_html=True,
     )
-    # =========================
-    # HOW TO USE APP
-    # =========================
-    with st.expander("✨ How To Use The App", expanded=False):
 
-        st.markdown(
-            """
-<div style='font-size:15px;'>
-
-<h4>👤 Step 1 — Complete Your Profile</h4>
-
-Fill:
-
-<ul>
-    <li>Age</li>
-    <li>Weight</li>
-    <li>Fitness Goal</li>
-    <li>Lifestyle</li>
-    <li>Activity Level</li>
-    <li>Illness</li>
-</ul>
-
-AI uses this data to personalize all recommendations.
-
-<hr>
-
-<h3>📊 Dashboard</h3>
-
-Track:
-
-<ul>
-    <li>Sleep</li>
-    <li>Stress</li>
-    <li>Hydration</li>
-    <li>Energy</li>
-    <li>Wellness Score</li>
-</ul>
-
-<hr>
-
-<h3>💪 Workout</h3>
-
-Generate:
-
-<ul>
-    <li>Fat loss plans</li>
-    <li>Running programs</li>
-    <li>Strength routines</li>
-    <li>Recovery workouts</li>
-</ul>
-
-<hr>
-
-<h3>🥗 Nutrition</h3>
-
-Get:
-
-<ul>
-    <li>Personalized diets</li>
-    <li>Skin-focused nutrition</li>
-    <li>Cuisine-based meal plans</li>
-</ul>
-
-<hr>
-
-<hr style="margin:18px 0; opacity:0.15;">
-
-<h3>🧘 Wellness</h3>
-
-Get wellness guidance for:
-
-<ul>
-    <li>Stress management</li>
-    <li>Eye care tips</li>
-    <li>Recovery support</li>
-    <li>General wellness supplements</li>
-    <li>Healthy lifestyle habits</li>
-</ul>
-
-<hr>
-
-<h3>🤖 AI Coach</h3>
-
-Ask questions anytime about:
-
-<ul>
-    <li>Fitness</li>
-    <li>Recovery</li>
-    <li>Nutrition</li>
-    <li>Stress</li>
-    <li>Wellness</li>
-</ul>
-
-</div>
-""",
-            unsafe_allow_html=True,
-        )
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # =========================
-    # PROFILE FORM
-    # =========================
-    st.markdown(
-        """
-        <h3 style='margin-bottom:4px;'>👤 Your Profile</h3>
-        <p style='opacity:0.75;'>Tell us about yourself to personalize your plans</p>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    # =========================
-    # BASIC DETAILS
-    # =========================
     st.markdown("### Basic Information")
 
-    age = st.text_input("Age", placeholder="Enter your age", key="age_input")
+    age = st.text_input(
+        "Age",
+        placeholder="Enter your age",
+        key="age_input",
+    )
 
     gender = st.selectbox(
         "Gender",
@@ -1046,83 +944,23 @@ Ask questions anytime about:
         key="gender_input",
     )
 
-    if gender == "Female":
-
-        try:
-            age_val = int(age)
-        except Exception:
-            age_val = 0
-
-        if age_val < 18:
-            special_condition = "N/A"
-            st.session_state["condition_input"] = "N/A"
-            st.info("⚠️ Special conditions not applicable for this age")
-        else:
-            special_condition = st.selectbox(
-                "Special Condition",
-                ["None", "Pregnant", "Postpartum"],
-                key="condition_input",
-            )
-
-    else:
-        special_condition = "N/A"
-        st.session_state["condition_input"] = "N/A"
-
     height = st.text_input(
-        "Height (cm)", placeholder="Enter your height", key="height_input"
+        "Height (cm)",
+        placeholder="Enter your height",
+        key="height_input",
     )
+
     weight = st.text_input(
-        "Weight (kg)", placeholder="Enter your weight", key="weight_input"
+        "Weight (kg)",
+        placeholder="Enter your weight",
+        key="weight_input",
     )
-    target_weight = st.text_input("Target Weight (kg)", key="target_weight_input")
 
-    # =========================
-    # BMI
-    # =========================
-    if height and weight:
+    target_weight = st.text_input(
+        "Target Weight (kg)",
+        key="target_weight_input",
+    )
 
-        try:
-            h = float(height) / 100
-            w = float(weight)
-            bmi = round(w / (h**2), 2)
-
-            if bmi < 18.5:
-                status = "Underweight ❗"
-                color = "#ef4444"
-            elif bmi < 25:
-                status = "Normal ✅"
-                color = "#22c55e"
-            else:
-                status = "Overweight ⚠️"
-                color = "#f59e0b"
-
-            ideal_min = round(18.5 * (h**2), 1)
-            ideal_max = round(24.9 * (h**2), 1)
-
-            st.markdown(
-                f"""
-                <div style="
-                background:rgba(255,255,255,0.05);
-                padding:14px;
-                border-radius:12px;
-                margin-top:10px;
-                margin-bottom:18px;
-                border-left:4px solid {color};
-                ">
-                <h4 style='margin-top:0px;'>📊 BMI Analysis</h4>
-                <p><b>BMI:</b> <span style='color:{color};'>{bmi} ({status})</span></p>
-                <p style='margin-bottom:0px;'>🎯 Ideal Weight Range: {ideal_min} - {ideal_max} kg</p>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-
-        except Exception:
-            st.warning("Enter valid height and weight")
-
-    # =========================
-    # FITNESS DETAILS
-    # =========================
     st.markdown("### Fitness Preferences")
 
     goal = st.selectbox(
@@ -1156,12 +994,10 @@ Ask questions anytime about:
         key="lifestyle_input",
     )
 
-    # =========================
-    # HEALTH CONDITIONS
-    # =========================
     illness = st.text_input(
         "Health Conditions / Illness (Optional)",
-        placeholder="Example: Diabetes, thyroid, heart condition, knee pain, asthma...",
+        placeholder="Example: Diabetes, thyroid, asthma...",
+        key="illness_input",
     )
 
     injury = st.selectbox(
@@ -1185,17 +1021,14 @@ Ask questions anytime about:
             or level == "Select Level"
             or lifestyle == "Select Lifestyle"
         ):
+
             st.warning("⚠️ Please fill all required fields")
 
         else:
-            import datetime
-
-            st.success("✅ Profile saved successfully!")
 
             st.session_state["profile_data"] = {
                 "age": age,
                 "gender": gender,
-                "condition": special_condition,
                 "height": height,
                 "weight": weight,
                 "target_weight": target_weight,
@@ -1206,35 +1039,55 @@ Ask questions anytime about:
                 "illness": illness,
             }
 
-            if "profile_history" not in st.session_state:
-                st.session_state["profile_history"] = []
-
-            st.session_state["profile_history"].append(
-                {
-                    "date": datetime.datetime.now(),
-                    "weight": weight,
-                }
-            )
+            st.success("✅ Profile saved successfully!")
 
     # =========================
     # RESET PROFILE
     # =========================
     if st.button("Reset Profile"):
 
-        st.session_state["profile_data"] = {}
-        st.session_state["progress_data"] = {}
+        keys_to_clear = [
+            "age_input",
+            "gender_input",
+            "height_input",
+            "weight_input",
+            "goal_input",
+            "level_input",
+            "lifestyle_input",
+            "illness_input",
+            "injury_input",
+            "target_weight_input",
+            "profile_data",
+            "current_workout",
+            "current_nutrition",
+            "current_coach_response",
+            "current_wellness_tip",
+        ]
 
-        st.success("✅ Profile reset successfully")
+        for key in keys_to_clear:
+            if key in st.session_state:
+                del st.session_state[key]
 
+        st.success("Profile reset successfully.")
         st.rerun()
 
+    # =========================
+    # NAVIGATION
+    # =========================
+    col1, col2 = st.columns([5, 1])
+
+    with col2:
+        if st.button("Next ➜"):
+            st.session_state.page = "Dashboard"
+            st.rerun()
 
 # =========================
 # DASHBOARD PAGE
 # =========================
 elif page == "Dashboard":
 
-    import pandas as pd
+    st.markdown(f"# {st.session_state.page}")
+
     import plotly.express as px
     import plotly.graph_objects as go
     import random
@@ -1317,21 +1170,25 @@ movement and recovery daily.
         c1, c2 = st.columns(2)
 
         with c1:
+
             sleep = st.slider(
                 "Sleep (hrs)",
                 0,
                 12,
                 st.session_state.get("sleep", 6),
             )
+
             st.session_state.sleep = sleep
 
         with c2:
+
             stress = st.slider(
                 "Stress",
                 0,
                 10,
                 st.session_state.get("stress", 4),
             )
+
             st.session_state.stress = stress
 
         energy = st.slider(
@@ -1542,181 +1399,25 @@ color:white;
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # =========================
-        # SMART TIPS
-        # =========================
-        st.markdown("### 💡 Smart Tips")
+    # =========================
+    # NAVIGATION
+    # =========================
+    col1, col2 = st.columns(2)
 
-        tips = []
-
-        if sleep < 6:
-            tips.append("😴 Improve your sleep schedule")
-
-        if stress > 7:
-            tips.append("🧘 High stress detected today")
-
-        if st.session_state.water < 5:
-            tips.append("💧 Increase hydration")
-
-        if energy < 5:
-            tips.append("⚡ Prioritize recovery")
-
-        if not tips:
-            tips.append("🔥 Excellent consistency today")
-
-        for tip in tips:
-
-            st.markdown(
-                f"""
-<div style="
-background:rgba(99,102,241,0.10);
-padding:14px;
-border-radius:12px;
-margin-bottom:10px;
-border:1px solid rgba(255,255,255,0.06);
-color:white;
-">
-{tip}
-</div>
-""",
-                unsafe_allow_html=True,
-            )
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        # =========================
-        # BUTTONS
-        # =========================
-        if st.button(
-            "📈 Open Detailed Analytics",
-            use_container_width=True,
-        ):
-            st.session_state.show_analytics = True
+    with col1:
+        if st.button("⬅ Back"):
+            st.session_state.page = "Profile"
             st.rerun()
 
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        if st.button(
-            "🔄 Reset Daily Check-In",
-            use_container_width=True,
-        ):
-            st.session_state["water"] = 0
-            st.session_state["sleep"] = 0
-            st.session_state["stress"] = 0
-            st.session_state["energy"] = 0
-            st.session_state["mood"] = None
+    with col2:
+        if st.button("Next ➜"):
+            st.session_state.page = "Workout"
             st.rerun()
-
-    # =====================================================
-    # ANALYTICS VIEW
-    # =====================================================
-    else:
-
-        if st.button(
-            "⬅ Back to Dashboard",
-            use_container_width=True,
-        ):
-            st.session_state.show_analytics = False
-            st.rerun()
-
-        st.markdown("## 📊 Performance Insights")
-
-        st.caption("Monitor your wellness trends over time.")
-
-        # =========================
-        # ANALYTICS DATA
-        # =========================
-        if (
-            "analytics_data" not in st.session_state
-            or len(st.session_state.analytics_data) == 0
-        ):
-
-            st.session_state.analytics_data = []
-
-            base_date = datetime.datetime.now()
-
-            for i in range(14):
-
-                st.session_state.analytics_data.append(
-                    {
-                        "date": base_date - datetime.timedelta(days=13 - i),
-                        "sleep": random.randint(5, 9),
-                        "stress": random.randint(2, 8),
-                        "energy": random.randint(4, 10),
-                        "water": random.randint(3, 8),
-                        "wellness_score": random.randint(55, 95),
-                    }
-                )
-
-        df = pd.DataFrame(st.session_state.analytics_data)
-
-        df["date"] = pd.to_datetime(df["date"])
-
-        metrics = [
-            ("sleep", "😴 Sleep Trend"),
-            ("stress", "🧘 Stress Trend"),
-            ("energy", "⚡ Energy Trend"),
-            ("water", "💧 Hydration Trend"),
-            ("wellness_score", "🚀 Wellness Score"),
-        ]
-
-        for metric, title in metrics:
-
-            st.markdown(f"## {title}")
-
-            fig = px.line(
-                df,
-                x="date",
-                y=metric,
-                markers=True,
-            )
-
-            fig.update_traces(
-                line=dict(
-                    color="#38bdf8",
-                    width=3,
-                ),
-                marker=dict(
-                    size=7,
-                    color="#38bdf8",
-                ),
-            )
-
-            fig.update_layout(
-                paper_bgcolor="#07122b",
-                plot_bgcolor="#0b1736",
-                font=dict(color="white"),
-                height=320,
-                margin=dict(
-                    l=20,
-                    r=20,
-                    t=20,
-                    b=20,
-                ),
-                xaxis=dict(
-                    showgrid=False,
-                    color="#cbd5e1",
-                ),
-                yaxis=dict(
-                    gridcolor="rgba(255,255,255,0.12)",
-                    zeroline=False,
-                    color="#cbd5e1",
-                ),
-            )
-
-            st.plotly_chart(
-                fig,
-                use_container_width=True,
-                config={"displayModeBar": False},
-            )
-
-            st.markdown("<br>", unsafe_allow_html=True)
-
-
 # =========================
 # WORKOUT PAGE
 # =========================
 elif page == "Workout":
+    st.markdown(f"# {st.session_state.page}")
 
     # =========================
     # HERO CARD
@@ -1927,10 +1628,22 @@ line-height:1.8;
 
         st.info("No workout history yet.")
 
+    col1, col2 = st.columns(2)
+
+    with col1:
+        if st.button("⬅ Back"):
+            st.session_state.page = "Dashboard"
+            st.rerun()
+
+    with col2:
+        if st.button("Next ➜"):
+            st.session_state.page = "Nutrition"
+            st.rerun()
 # =========================
 # NUTRITION PAGE
 # =========================
 elif page == "Nutrition":
+    st.markdown(f"# {st.session_state.page}")
 
     # =========================
     # HERO CARD
@@ -2031,8 +1744,6 @@ Personalized nutrition plans designed for your fitness goals, lifestyle, illness
         ["Select Skin Goal", "Acne Control", "Glow", "Anti-aging", "Pigmentation"],
     )
 
-    st.markdown("</div>", unsafe_allow_html=True)
-
     # =========================
     # GENERATE DIET
     # =========================
@@ -2043,7 +1754,7 @@ Personalized nutrition plans designed for your fitness goals, lifestyle, illness
 
         progress = st.session_state.get("progress_data", {})
 
-        required_fields = ["age", "weight", "goal", "level", "illness"]
+        required_fields = ["age", "weight", "goal", "level"]
 
         missing = [
             field
@@ -2168,6 +1879,18 @@ line-height:1.8;
 
         st.info("No nutrition history yet.")
 
+    col1, col2 = st.columns(2)
+
+    with col1:
+        if st.button("⬅ Back"):
+            st.session_state.page = "Workout"
+            st.rerun()
+
+    with col2:
+        if st.button("Next ➜"):
+            st.session_state.page = "Coach"
+            st.rerun()
+
 # =========================
 # COACH PAGE
 # =========================
@@ -2175,6 +1898,8 @@ elif page == "Coach":
 
     import re
     from difflib import get_close_matches
+
+    st.markdown(f"# {st.session_state.page}")
 
     # =========================
     # SESSION STATES
@@ -2520,10 +2245,26 @@ Your AI companion for workouts, nutrition, recovery & wellness guidance.
                     """,
                     unsafe_allow_html=True,
                 )
+
+    # =========================
+    # NAVIGATION
+    # =========================
+    col1, col2 = st.columns(2)
+
+    with col1:
+        if st.button("⬅ Back"):
+            st.session_state.page = "Nutrition"
+            st.rerun()
+
+    with col2:
+        if st.button("Next ➜"):
+            st.session_state.page = "Wellness"
+            st.rerun()
 # =========================
 # WELLNESS PAGE
 # =========================
 elif page == "Wellness":
+    st.markdown(f"# {st.session_state.page}")
 
     st.markdown(
         """
@@ -2821,3 +2562,12 @@ Improve recovery, reduce stress and build
             """,
             unsafe_allow_html=True,
         )
+    # =========================
+    # NAVIGATION
+    # =========================
+    col1, col2 = st.columns([1, 5])
+
+    with col1:
+        if st.button("⬅ Back"):
+            st.session_state.page = "Coach"
+            st.rerun()
