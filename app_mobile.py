@@ -64,6 +64,7 @@ details {
 # =========================
 # GLOBAL CSS
 # =========================
+
 st.markdown(
     """
 <style>
@@ -71,15 +72,24 @@ st.markdown(
 /* =========================
 APP BACKGROUND
 ========================= */
+
 .stApp {
-    background: linear-gradient(135deg, #0f172a, #111827);
+    background:
+    linear-gradient(
+        135deg,
+        #0f172a,
+        #111827
+    );
     color: white;
 }
 
 /* MAIN CONTAINER */
 .main .block-container {
+
     max-width: 1150px;
+
     padding-top: 1rem;
+
     padding-left: 1rem;
     padding-right: 1rem;
 }
@@ -89,83 +99,178 @@ SIDEBAR
 ========================= */
 
 section[data-testid="stSidebar"] {
-    background: linear-gradient(
+
+    background:
+    linear-gradient(
         180deg,
         #081028,
         #0b1736
-    );
-    padding-top: 10px;
+    ) !important;
+
+    border-right:
+    1px solid rgba(255,255,255,0.05);
+
+    transition:
+    all 0.3s ease-in-out;
+}
+
+/* SIDEBAR CONTAINER */
+
+section[data-testid="stSidebar"] .block-container {
+
+    padding-top: 1rem !important;
+
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+
+    padding-bottom: 1rem !important;
 }
 
 /* ALL SIDEBAR TEXT */
+
 section[data-testid="stSidebar"] * {
     color: white !important;
 }
 
-/* REMOVE STREAMLIT EXTRA WRAPPERS */
+/* =========================
+MOBILE SIDEBAR
+========================= */
+
+@media (max-width: 768px) {
+
+    section[data-testid="stSidebar"] {
+
+        width: 0px !important;
+        min-width: 0px !important;
+    }
+
+    section[data-testid="stSidebar"][aria-expanded="true"] {
+
+        width: 82vw !important;
+        min-width: 82vw !important;
+    }
+
+    .main .block-container {
+
+        padding-left: 0.8rem !important;
+        padding-right: 0.8rem !important;
+    }
+}
+
+/* =========================
+SIDEBAR LOGO
+========================= */
+
+.sidebar-logo {
+
+    margin-bottom: 8px !important;
+}
+
+.sidebar-title {
+
+    margin-bottom: 0px !important;
+}
+
+.sidebar-divider {
+
+    margin-top: 14px !important;
+    margin-bottom: 14px !important;
+
+    opacity: 0.08;
+}
+
+/* =========================
+RADIO GROUP
+========================= */
+
 section[data-testid="stSidebar"] .stRadio > div {
+
     background: transparent !important;
+
     border: none !important;
+
     padding: 0 !important;
 }
 
-/* RADIO GROUP */
+/* RADIO GAP */
+
 section[data-testid="stSidebar"] div[role="radiogroup"] {
-    gap: 12px;
+
+    gap: 10px;
 }
 
-/* SIDEBAR MENU BUTTONS */
+/* BUTTON STYLE */
+
 section[data-testid="stSidebar"] label[data-baseweb="radio"] {
 
     width: 100% !important;
-    min-height: 52px !important;
+
+    min-height: 44px !important;
 
     display: flex !important;
+
     align-items: center !important;
 
-    padding: 10px 16px !important;
+    padding:
+    8px 14px !important;
 
-    border-radius: 20px !important;
+    border-radius: 18px !important;
 
-    background: rgba(99,102,241,0.16);
+    background:
+    rgba(99,102,241,0.16);
 
-    border: 1px solid rgba(255,255,255,0.08);
+    border:
+    1px solid rgba(255,255,255,0.08);
 
-    transition: all 0.25s ease;
+    transition:
+    all 0.25s ease;
 
-    box-sizing: border-box !important;
+    box-sizing:
+    border-box !important;
 
-    margin-bottom: 12px !important;
+    margin-bottom:
+    10px !important;
 }
 
 /* ACTIVE PAGE */
-section[data-testid="stSidebar"] label[data-baseweb="radio"][aria-checked="true"] {
 
-    background: linear-gradient(
+section[data-testid="stSidebar"]
+label[data-baseweb="radio"][aria-checked="true"] {
+
+    background:
+    linear-gradient(
         90deg,
         #5B5FEF,
         #8B5CF6
     ) !important;
 
-    border: 1px solid rgba(255,255,255,0.15) !important;
+    border:
+    1px solid rgba(255,255,255,0.15) !important;
 
-    box-shadow: 0 6px 18px rgba(99,102,241,0.25);
+    box-shadow:
+    0 6px 18px rgba(99,102,241,0.25);
 }
 
 /* HOVER */
-section[data-testid="stSidebar"] label[data-baseweb="radio"]:hover {
 
-    background: linear-gradient(
+section[data-testid="stSidebar"]
+label[data-baseweb="radio"]:hover {
+
+    background:
+    linear-gradient(
         90deg,
         #5B5FEF,
         #8B5CF6
     );
 
-    transform: scale(1.02);
+    transform:
+    scale(1.01);
 }
 
 /* TEXT */
-section[data-testid="stSidebar"] label[data-baseweb="radio"] span {
+
+section[data-testid="stSidebar"]
+label[data-baseweb="radio"] span {
 
     color: white !important;
 
@@ -175,13 +280,17 @@ section[data-testid="stSidebar"] label[data-baseweb="radio"] span {
 }
 
 /* RADIO DOT */
-section[data-testid="stSidebar"] input[type="radio"] {
+
+section[data-testid="stSidebar"]
+input[type="radio"] {
+
     accent-color: #ffffff;
 }
 
 /* =========================
 HEADINGS
 ========================= */
+
 h1, h2, h3, h4, h5, h6, label {
     color: white !important;
 }
@@ -189,165 +298,281 @@ h1, h2, h3, h4, h5, h6, label {
 /* =========================
 BUTTONS
 ========================= */
+
 .stButton > button {
-    background: linear-gradient(
+
+    background:
+    linear-gradient(
         90deg,
         #5B5FEF,
         #8B5CF6
     ) !important;
 
     color: white !important;
+
     border: none !important;
+
     border-radius: 14px !important;
 
     width: 100% !important;
+
     height: 52px !important;
 
     font-weight: 700 !important;
+
     font-size: 16px !important;
 
-    transition: all 0.25s ease !important;
+    transition:
+    all 0.25s ease !important;
 
     opacity: 1 !important;
+
     visibility: visible !important;
 }
 
-/* HOVER */
+/* BUTTON HOVER */
+
 .stButton > button:hover {
-    background: linear-gradient(
+
+    background:
+    linear-gradient(
         90deg,
         #4F46E5,
         #7C3AED
     ) !important;
 
-    transform: scale(1.01);
-}
-.stButton button:hover {
-    background: linear-gradient(90deg, #4f46e5, #7c3aed) !important;
-    transform: scale(1.01);
+    transform:
+    scale(1.01);
 }
 
 /* DOWNLOAD BUTTON */
+
 div.stDownloadButton > button {
-    background: linear-gradient(90deg, #6366f1, #8b5cf6) !important;
+
+    background:
+    linear-gradient(
+        90deg,
+        #6366f1,
+        #8b5cf6
+    ) !important;
+
     color: white !important;
+
     border-radius: 10px !important;
+
     border: none !important;
+
     font-weight: 600 !important;
 }
 
 /* =========================
 INPUTS
 ========================= */
-input, textarea {
-    background-color: #0e2a47 !important;
-    color: white !important;
-    border: 1px solid rgba(255,255,255,0.2) !important;
-    border-radius: 12px !important;
+
+input,
+textarea {
+
+    background-color:
+    #0e2a47 !important;
+
+    color:
+    white !important;
+
+    border:
+    1px solid rgba(255,255,255,0.2) !important;
+
+    border-radius:
+    12px !important;
 }
 
 input::placeholder,
 textarea::placeholder {
-    color: #aaa !important;
+
+    color:
+    #aaa !important;
 }
 
 div[data-baseweb="input"] > div {
-    background-color: #0e2a47 !important;
-    border-radius: 12px;
+
+    background-color:
+    #0e2a47 !important;
+
+    border-radius:
+    12px;
 }
 
 div[data-baseweb="input"] input:focus {
+
     outline: none !important;
-    border: 1px solid #6366f1 !important;
+
+    border:
+    1px solid #6366f1 !important;
 }
 
 /* SELECT BOX */
+
 div[data-baseweb="select"] > div {
-    background-color: #0e2a47 !important;
-    color: white !important;
-    border-radius: 10px;
+
+    background-color:
+    #0e2a47 !important;
+
+    color:
+    white !important;
+
+    border-radius:
+    10px;
 }
 
 /* =========================
 CARDS
 ========================= */
+
 .card {
-    background: rgba(255,255,255,0.06);
+
+    background:
+    rgba(255,255,255,0.06);
+
     padding: 16px;
+
     border-radius: 14px;
-    border: 1px solid rgba(255,255,255,0.08);
-    backdrop-filter: blur(8px);
+
+    border:
+    1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter:
+    blur(8px);
 }
 
 /* =========================
 IMAGES
 ========================= */
+
 img {
+
     border-radius: 18px;
+
     object-fit: cover;
 }
 
 /* =========================
 PROGRESS BAR
 ========================= */
+
 .stProgress > div > div {
-    background: linear-gradient(90deg, #22c55e, #4ade80);
+
+    background:
+    linear-gradient(
+        90deg,
+        #22c55e,
+        #4ade80
+    );
 }
 
 /* =========================
 CHAT BUBBLES
 ========================= */
+
 .user-bubble {
-    background: linear-gradient(90deg, #6366f1, #8b5cf6);
-    padding: 12px 16px;
-    border-radius: 18px 18px 4px 18px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #6366f1,
+        #8b5cf6
+    );
+
+    padding:
+    12px 16px;
+
+    border-radius:
+    18px 18px 4px 18px;
+
     color: white;
+
     margin: 10px 0;
+
     max-width: 75%;
+
     width: fit-content;
+
     margin-left: auto;
+
     font-size: 15px;
+
     line-height: 1.7;
 }
 
 .bot-bubble {
-    background: rgba(255,255,255,0.08);
+
+    background:
+    rgba(255,255,255,0.08);
+
     padding: 16px;
-    border-radius: 18px 18px 18px 4px;
+
+    border-radius:
+    18px 18px 18px 4px;
+
     color: white;
+
     margin: 10px 0;
+
     max-width: 85%;
+
     width: fit-content;
+
     line-height: 1.8;
-    border: 1px solid rgba(255,255,255,0.06);
-    backdrop-filter: blur(10px);
+
+    border:
+    1px solid rgba(255,255,255,0.06);
+
+    backdrop-filter:
+    blur(10px);
 }
 
-/* LINKS INSIDE CHAT */
+/* LINKS */
+
 .bot-bubble a {
+
     color: white !important;
+
     text-decoration: underline;
 }
 
 /* =========================
 EXPANDERS
 ========================= */
+
 .streamlit-expanderHeader {
-    background: rgba(255,255,255,0.05) !important;
-    color: white !important;
-    border-radius: 12px !important;
-    border: 1px solid rgba(255,255,255,0.08) !important;
+
+    background:
+    rgba(255,255,255,0.05) !important;
+
+    color:
+    white !important;
+
+    border-radius:
+    12px !important;
+
+    border:
+    1px solid rgba(255,255,255,0.08) !important;
 }
 
 .streamlit-expanderContent {
-    background: rgba(255,255,255,0.03) !important;
-    border-radius: 0px 0px 12px 12px !important;
-    color: white !important;
+
+    background:
+    rgba(255,255,255,0.03) !important;
+
+    border-radius:
+    0px 0px 12px 12px !important;
+
+    color:
+    white !important;
 }
 
 /* =========================
 ALERTS
 ========================= */
+
 div[data-testid="stAlert"] {
     color: white !important;
 }
@@ -359,6 +584,7 @@ div[data-testid="stAlert"] {
 /* =========================
 TEXT
 ========================= */
+
 p {
     color: white !important;
 }
@@ -374,13 +600,17 @@ details p {
 /* =========================
 FILE UPLOADER
 ========================= */
+
 div[data-testid="stFileUploader"] {
-    background-color: transparent !important;
+
+    background-color:
+    transparent !important;
 }
 
 /* =========================
 MOBILE RESPONSIVE
 ========================= */
+
 @media (max-width: 768px) {
 
     h1 {
@@ -396,23 +626,23 @@ MOBILE RESPONSIVE
     }
 
     .stButton button {
-        height: 42px;
-        font-size: 14px;
-    }
 
-    .main .block-container {
-        padding-left: 0.8rem;
-        padding-right: 0.8rem;
+        height: 42px;
+
+        font-size: 14px;
     }
 
     .user-bubble,
     .bot-bubble {
+
         max-width: 95%;
+
         font-size: 14px;
     }
 }
 
 /* HIDE UNUSED */
+
 .stat-card {
     display: none;
 }
@@ -421,6 +651,8 @@ MOBILE RESPONSIVE
 """,
     unsafe_allow_html=True,
 )
+
+
 # =========================
 # SESSION STATE DEFAULTS
 # =========================
@@ -559,40 +791,69 @@ if "mood" not in st.session_state:
 
 if "analytics_data" not in st.session_state:
     st.session_state["analytics_data"] = []
-
 # =========================
 # SIDEBAR NAVIGATION
 # =========================
+
 with st.sidebar:
 
-    st.image(LOGO_URL, width=80)
+    st.image(LOGO_URL, width=110)
 
     st.markdown(
         """
-        <h2 style="margin-bottom:0px;">⚡ AIVioMate</h2>
-        <p style="margin-top:0px; opacity:0.7; font-size:12px;">AI Wellness Companion</p>
+        <h1 style="
+        color:white;
+        font-size:30px;
+        margin-bottom:0px;
+        ">
+        ⚡ AIVioMate
+        </h1>
+
+        <p style="
+        color:#9ca3af;
+        margin-top:6px;
+        font-size:15px;
+        ">
+        AI Wellness Companion
+        </p>
         """,
         unsafe_allow_html=True,
     )
 
-    st.markdown("---")
+    st.markdown(
+        """
+        <hr style="
+        margin-top:14px;
+        margin-bottom:14px;
+        opacity:0.08;
+        ">
+        """,
+        unsafe_allow_html=True,
+    )
 
-    tabs = ["Profile", "Dashboard", "Workout", "Nutrition", "Coach", "Wellness"]
+    tabs = [
+        "Profile",
+        "Dashboard",
+        "Workout",
+        "Nutrition",
+        "Coach",
+        "Wellness",
+    ]
 
     selected_page = st.radio(
-        " ",
+        "",
         tabs,
         index=tabs.index(st.session_state.page),
+        label_visibility="collapsed",
     )
 
     st.session_state.page = selected_page
 
-    st.markdown("---")
+    st.markdown("<br>", unsafe_allow_html=True)
 
     st.caption("Train smarter • Recover better")
 
 page = st.session_state.page
-
 
 # =========================
 # PROFILE PAGE
