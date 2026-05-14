@@ -99,6 +99,55 @@ APP BACKGROUND
 }
 
 /* =========================
+CUSTOM MOBILE SIDEBAR
+========================= */
+
+.mobile-sidebar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 82vw;
+    height: 100vh;
+
+    z-index: 999999;
+
+    padding: 20px;
+
+    background:
+    linear-gradient(
+        180deg,
+        #081028,
+        #0b1736
+    );
+
+    overflow-y: auto;
+
+    box-shadow:
+    0 0 40px rgba(0,0,0,0.5);
+}
+
+/* MENU BUTTON */
+
+button[kind="secondary"] {
+
+    background:
+    linear-gradient(
+        90deg,
+        #5B5FEF,
+        #8B5CF6
+    ) !important;
+
+    color: white !important;
+
+    border-radius: 14px !important;
+
+    border: none !important;
+}
+
+/* =========================
 SIDEBAR
 ========================= */
 
@@ -832,7 +881,36 @@ if "show_sidebar" not in st.session_state:
 # SIDEBAR NAVIGATION
 # =========================
 
-with st.sidebar:
+# =========================
+# MOBILE NAVIGATION
+# =========================
+
+if "show_menu" not in st.session_state:
+    st.session_state.show_menu = False
+
+# =========================
+# TOP MENU BUTTON
+# =========================
+
+col1, col2 = st.columns([1, 5])
+
+with col1:
+
+    if st.button("☰", key="menu_toggle"):
+        st.session_state.show_menu = not st.session_state.show_menu
+
+# =========================
+# SIDEBAR DRAWER
+# =========================
+
+if st.session_state.show_menu:
+
+    st.markdown(
+        """
+        <div class="mobile-sidebar">
+        """,
+        unsafe_allow_html=True,
+    )
 
     st.image(LOGO_URL, width=110)
 
@@ -853,10 +931,41 @@ with st.sidebar:
         ">
         AI Wellness Companion
         </p>
+        <br>
         """,
         unsafe_allow_html=True,
     )
 
+    tabs = [
+        "Profile",
+        "Dashboard",
+        "Workout",
+        "Nutrition",
+        "Coach",
+        "Wellness",
+    ]
+
+    for tab in tabs:
+
+        active = tab == st.session_state.page
+
+        if st.button(
+            tab,
+            key=f"nav_{tab}",
+            use_container_width=True,
+            type="primary" if active else "secondary",
+        ):
+
+            st.session_state.page = tab
+
+            # AUTO CLOSE MENU
+            st.session_state.show_menu = False
+
+            st.rerun()
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    page = st.session_state.page
     st.markdown("---")
 
     tabs = [
