@@ -26,9 +26,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 
 st.set_page_config(
-    page_title="AIVioMate",
-    layout="centered",
-    initial_sidebar_state="collapsed",
+    page_title="AIVioMate", layout="wide", initial_sidebar_state="expanded"
 )
 
 # =========================
@@ -69,16 +67,28 @@ st.markdown(
     """
 <style>
 
+/* =========================
+   APP BACKGROUND
+========================= */
+
+.stApp {
+    background: linear-gradient(135deg, #0b1220, #111827);
+    color: white;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
 section[data-testid="stSidebar"] {
     background: linear-gradient(180deg, #081028, #0b1736) !important;
     border-right: 1px solid rgba(255,255,255,0.06);
 }
 
 
-.stApp {
-    background: linear-gradient(135deg, #0b1220, #111827);
-    color: white;
-}
+/* =========================
+   MAIN CONTAINER
+========================= */
 
 .main .block-container {
     max-width: 1200px;
@@ -88,6 +98,10 @@ section[data-testid="stSidebar"] {
     padding-bottom: 2rem;
 }
 
+/* =========================
+   BUTTONS
+========================= */
+
 .stButton > button {
     background: linear-gradient(90deg, #6366f1, #8b5cf6) !important;
     color: white !important;
@@ -96,54 +110,121 @@ section[data-testid="stSidebar"] {
     font-weight: 700 !important;
     transition: 0.25s ease !important;
 }
+
 .stButton > button:hover {
     background: linear-gradient(90deg, #4f46e5, #7c3aed) !important;
     transform: scale(1.01);
 }
 
-.sidebar-logo { margin-bottom: 10px !important; }
-.sidebar-title { color: white; font-size: 28px; font-weight: 800; margin-bottom: 0px !important; }
-.sidebar-subtitle { color: #9ca3af; margin-top: 4px !important; font-size: 14px; }
-.sidebar-divider { margin-top: 16px !important; margin-bottom: 18px !important; opacity: 0.08; }
+/* =========================
+   SIDEBAR LOGO
+========================= */
 
-div[role="radiogroup"] { gap: 10px !important; }
+.sidebar-logo {
+    margin-bottom: 8px !important;
+}
+
+.sidebar-title {
+    color: white;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 0px !important;
+}
+
+.sidebar-subtitle {
+    color: #9ca3af;
+    margin-top: 4px !important;
+    font-size: 14px;
+}
+
+.sidebar-divider {
+    margin-top: 14px !important;
+    margin-bottom: 16px !important;
+    opacity: 0.08;
+}
+st.markdown(
+    "<div style='height:10px'></div>",
+    unsafe_allow_html=True,
+)
+/* =========================
+   RADIO BUTTONS
+========================= */
+
+div[role="radiogroup"] {
+    gap: 10px !important;
+}
 
 label[data-baseweb="radio"] {
+
     width: 100% !important;
-    min-height: 46px !important;
+
+    min-height: 52px !important;
+
     display: flex !important;
+
     align-items: center !important;
-    padding: 8px 14px !important;
+
+    padding: 8px 16px !important;
+
     border-radius: 18px !important;
-    background: rgba(99,102,241,0.14);
-    border: 1px solid rgba(255,255,255,0.07);
+
+    background: linear-gradient(90deg, #5B5FEF, #8B5CF6);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
     transition: all 0.25s ease;
+
     margin-bottom: 10px !important;
 }
-label[data-baseweb="radio"][aria-checked="true"] {
-    background: linear-gradient(90deg, #5B5FEF, #8B5CF6) !important;
-    box-shadow: 0 6px 18px rgba(99,102,241,0.24);
-}
+
 label[data-baseweb="radio"]:hover {
-    background: linear-gradient(90deg, #5B5FEF, #8B5CF6);
+
     transform: scale(1.01);
+
+    box-shadow: 0 4px 16px rgba(99,102,241,0.30);
 }
+
 label[data-baseweb="radio"] span {
+
     color: white !important;
+
     font-size: 15px !important;
+
     font-weight: 600 !important;
 }
-input[type="radio"] { accent-color: white !important; }
 
-h1, h2, h3, h4, h5, h6, label { color: white !important; }
+input[type="radio"] {
 
-input, textarea {
+    accent-color: #ff4d4d !important;
+}
+
+/* =========================
+   HEADINGS
+========================= */
+
+h1, h2, h3, h4, h5, h6, label {
+    color: white !important;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+input,
+textarea {
     background-color: #0e2a47 !important;
     color: white !important;
+
     border: 1px solid rgba(255,255,255,0.2) !important;
+
     border-radius: 12px !important;
 }
-input::placeholder, textarea::placeholder { color: #aaa !important; }
+
+input::placeholder,
+textarea::placeholder {
+    color: #aaa !important;
+}
+
 div[data-baseweb="input"] > div {
     background-color: #0e2a47 !important;
     border-radius: 12px;
@@ -154,99 +235,160 @@ div[data-baseweb="select"] > div {
     color: white !important;
     border-radius: 12px !important;
 }
+
+
 /* =========================
-   SIDEBAR CONTROL FIX
+   CARDS
 ========================= */
 
-button[kind="header"] {
-    background: linear-gradient(90deg,#6366f1,#8b5cf6) !important;
-    border-radius: 10px !important;
-    color: white !important;
-}
-
-button[kind="header"] svg {
-    color: white !important;
-}
-
-/* mobile */
-@media (max-width: 768px) {
-
-    section[data-testid="stSidebar"] {
-        width: 280px !important;
-    }
-
-    .main .block-container {
-        padding-top: 4rem !important;
-    }
-}
 .card {
     background: rgba(255,255,255,0.06);
+
     padding: 16px;
+
     border-radius: 16px;
+
     border: 1px solid rgba(255,255,255,0.08);
+
     backdrop-filter: blur(10px);
 }
 
-img { border-radius: 18px; object-fit: cover; }
+/* =========================
+   IMAGES
+========================= */
+
+img {
+    border-radius: 18px;
+    object-fit: cover;
+}
+
+/* =========================
+   CHAT BUBBLES
+========================= */
 
 .user-bubble {
     background: linear-gradient(90deg, #6366f1, #8b5cf6);
+
     padding: 12px 16px;
+
     border-radius: 18px 18px 4px 18px;
+
     color: white;
+
     margin: 10px 0;
+
     max-width: 75%;
+
     width: fit-content;
+
     margin-left: auto;
+
     font-size: 15px;
+
     line-height: 1.7;
 }
+
 .bot-bubble {
     background: rgba(255,255,255,0.08);
+
     padding: 16px;
+
     border-radius: 18px 18px 18px 4px;
+
     color: white;
+
     margin: 10px 0;
+
     max-width: 85%;
+
     width: fit-content;
+
     line-height: 1.8;
+
     border: 1px solid rgba(255,255,255,0.06);
+
     backdrop-filter: blur(10px);
 }
-.bot-bubble a { color: white !important; text-decoration: underline !important; }
+
+.bot-bubble a {
+    color: white !important;
+    text-decoration: underline !important;
+}
+
+/* =========================
+   EXPANDERS
+========================= */
 
 .streamlit-expanderHeader {
     background: rgba(255,255,255,0.05) !important;
+
     color: white !important;
+
     border-radius: 12px !important;
+
     border: 1px solid rgba(255,255,255,0.08) !important;
 }
+
 .streamlit-expanderContent {
     background: rgba(255,255,255,0.03) !important;
+
     border-radius: 0px 0px 12px 12px !important;
+
     color: white !important;
 }
 
-p, span, details { color: white !important; }
+/* =========================
+   TEXT
+========================= */
+
+p,
+span,
+details {
+    color: white !important;
+}
+
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 768px) {
+
+    section[data-testid="stSidebar"] {
+        min-width: 240px !important;
+        max-width: 240px !important;
+    }
+
     .main .block-container {
+        padding-top: 0.6rem !important;
         padding-left: 0.7rem !important;
         padding-right: 0.7rem !important;
     }
-    h1 { font-size: 28px !important; }
-    h2 { font-size: 24px !important; }
-    h3 { font-size: 20px !important; }
-    .user-bubble, .bot-bubble { max-width: 95%; font-size: 14px; }
-    label[data-baseweb="radio"] { min-height: 42px !important; padding: 6px 12px !important; }
-    label[data-baseweb="radio"] span { font-size: 14px !important; }
-}
 
+    .user-bubble,
+    .bot-bubble {
+        max-width: 95%;
+        font-size: 14px;
+    }
+
+    label[data-baseweb="radio"] {
+
+        min-height: 44px !important;
+
+        border-radius: 14px !important;
+
+        padding: 6px 14px !important;
+
+        margin-bottom: 8px !important;
+    }
+
+    label[data-baseweb="radio"] span {
+        font-size: 14px !important;
+    }
+}
 </style>
 """,
     unsafe_allow_html=True,
 )
-
 # =========================
 # SESSION STATE DEFAULTS
 # =========================
@@ -376,7 +518,7 @@ def extract_links(text):
 
 
 # =========================
-# MOBILE SIDEBAR
+# SIDEBAR NAVIGATION
 # =========================
 
 with st.sidebar:
@@ -385,18 +527,45 @@ with st.sidebar:
 
     st.markdown(
         """
-        <h2 style="color:white; margin-bottom:0; font-size:30px;">
+        <h2 style="
+        color:white;
+        margin-bottom:0;
+        font-size:30px;
+        font-weight:800;
+        ">
         ⚡ AIVioMate
         </h2>
 
-        <p style="color:#9ca3af; margin-top:4px; font-size:14px;">
+        <p style="
+        color:#9ca3af;
+        margin-top:4px;
+        font-size:14px;
+        ">
         AI Wellness Companion
         </p>
         """,
         unsafe_allow_html=True,
     )
 
-    st.markdown("---")
+    st.markdown(
+        "<div style='height:10px'></div>",
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <p style="
+        color:#9ca3af;
+        font-size:13px;
+        margin-bottom:10px;
+        font-weight:600;
+        letter-spacing:0.5px;
+        ">
+        NAVIGATION
+        </p>
+        """,
+        unsafe_allow_html=True,
+    )
 
     tabs = [
         "Profile",
@@ -407,25 +576,31 @@ with st.sidebar:
         "Wellness",
     ]
 
-    for tab in tabs:
+    selected_page = st.radio(
+        "", tabs, index=tabs.index(st.session_state.page), key="nav_radio"
+    )
 
-        active = st.session_state.page == tab
+    # PAGE CHANGE
+    if selected_page != st.session_state.page:
 
-        if st.button(
-            f"🔴 {tab}" if active else f"⚪ {tab}",
-            key=f"mobile_nav_{tab}",
-            use_container_width=True,
-        ):
+        st.session_state.page = selected_page
 
-            st.session_state.page = tab
-            st.rerun()
+        # AUTO COLLAPSE SIDEBAR
+        st.markdown(
+            """
+            <script>
+            window.parent.document.querySelector('[data-testid="collapsedControl"]').click();
+            </script>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        st.rerun()
 
     st.markdown("---")
 
     st.caption("Train smarter • Recover better")
-# =========================
-# CURRENT PAGE
-# =========================
+
 page = st.session_state.page
 
 # =========================
