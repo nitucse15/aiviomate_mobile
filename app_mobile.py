@@ -929,55 +929,94 @@ Your AI-powered wellness companion for fitness,
 
         st.markdown(
             """
-            <div style='font-size:15px;'>
-            <h4>👤 Step 1 — Complete Your Profile</h4>
-            Fill:
-            <ul>
-                <li>Age</li>
-                <li>Weight</li>
-                <li>Fitness Goal</li>
-                <li>Lifestyle</li>
-                <li>Activity Level</li>
-            </ul>
-            AI uses this data to personalize all recommendations.
-            <hr>
-            <h3>📊 Dashboard</h3>
-            Track:
-            <ul>
-                <li>Sleep</li>
-                <li>Stress</li>
-                <li>Hydration</li>
-                <li>Energy</li>
-                <li>Wellness Score</li>
-            </ul>
-            <hr>
-            <h3>💪 Workout</h3>
-            Generate:
-            <ul>
-                <li>Fat loss plans</li>
-                <li>Running programs</li>
-                <li>Strength routines</li>
-                <li>Recovery workouts</li>
-            </ul>
-            <hr>
-            <h3>🥗 Nutrition</h3>
-            Get:
-            <ul>
-                <li>Personalized diets</li>
-                <li>Skin-focused nutrition</li>
-                <li>Cuisine-based meal plans</li>
-            </ul>
-            <hr>
-            <h3>🤖 AI Coach</h3>
-            Ask questions anytime about:
-            <ul>
-                <li>Fitness</li>
-                <li>Recovery</li>
-                <li>Nutrition</li>
-                <li>Stress</li>
-            </ul>
-            </div>
-            """,
+<div style='font-size:15px;'>
+
+<h4>👤 Step 1 — Complete Your Profile</h4>
+
+Fill:
+
+<ul>
+    <li>Age</li>
+    <li>Weight</li>
+    <li>Fitness Goal</li>
+    <li>Lifestyle</li>
+    <li>Activity Level</li>
+    <li>Illness</li>
+</ul>
+
+AI uses this data to personalize all recommendations.
+
+<hr>
+
+<h3>📊 Dashboard</h3>
+
+Track:
+
+<ul>
+    <li>Sleep</li>
+    <li>Stress</li>
+    <li>Hydration</li>
+    <li>Energy</li>
+    <li>Wellness Score</li>
+</ul>
+
+<hr>
+
+<h3>💪 Workout</h3>
+
+Generate:
+
+<ul>
+    <li>Fat loss plans</li>
+    <li>Running programs</li>
+    <li>Strength routines</li>
+    <li>Recovery workouts</li>
+</ul>
+
+<hr>
+
+<h3>🥗 Nutrition</h3>
+
+Get:
+
+<ul>
+    <li>Personalized diets</li>
+    <li>Skin-focused nutrition</li>
+    <li>Cuisine-based meal plans</li>
+</ul>
+
+<hr>
+
+<hr style="margin:18px 0; opacity:0.15;">
+
+<h3>🧘 Wellness</h3>
+
+Get wellness guidance for:
+
+<ul>
+    <li>Stress management</li>
+    <li>Eye care tips</li>
+    <li>Recovery support</li>
+    <li>General wellness supplements</li>
+    <li>Healthy lifestyle habits</li>
+</ul>
+
+<hr>
+
+<h3>🤖 AI Coach</h3>
+
+Ask questions anytime about:
+
+<ul>
+    <li>Fitness</li>
+    <li>Recovery</li>
+    <li>Nutrition</li>
+    <li>Stress</li>
+    <li>Wellness</li>
+</ul>
+
+</div>
+""",
             unsafe_allow_html=True,
         )
 
