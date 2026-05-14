@@ -137,16 +137,34 @@ section[data-testid="stSidebar"] * {
 }
 
 /* =========================
+MOBILE MENU BUTTON
+========================= */
+
+div.stButton > button[kind="secondary"] {
+
+    background:
+    linear-gradient(
+        90deg,
+        #5B5FEF,
+        #8B5CF6
+    ) !important;
+
+    color: white !important;
+
+    border-radius: 14px !important;
+
+    border: none !important;
+
+    font-weight: 700 !important;
+
+    height: 44px !important;
+}
+
+/* =========================
 MOBILE SIDEBAR
 ========================= */
 
 @media (max-width: 768px) {
-
-    section[data-testid="stSidebar"] {
-
-        width: 0px !important;
-        min-width: 0px !important;
-    }
 
     section[data-testid="stSidebar"][aria-expanded="true"] {
 
@@ -795,6 +813,21 @@ if "mood" not in st.session_state:
 
 if "analytics_data" not in st.session_state:
     st.session_state["analytics_data"] = []
+
+# =========================
+# MOBILE MENU BUTTON
+# =========================
+
+menu_col1, menu_col2 = st.columns([1, 5])
+
+with menu_col1:
+
+    if st.button("☰ Menu", key="mobile_menu"):
+        st.session_state.show_sidebar = True
+
+if "show_sidebar" not in st.session_state:
+    st.session_state.show_sidebar = False
+
 # =========================
 # SIDEBAR NAVIGATION
 # =========================
@@ -824,16 +857,7 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
 
-    st.markdown(
-        """
-        <hr style="
-        margin-top:14px;
-        margin-bottom:14px;
-        opacity:0.08;
-        ">
-        """,
-        unsafe_allow_html=True,
-    )
+    st.markdown("---")
 
     tabs = [
         "Profile",
@@ -851,11 +875,18 @@ with st.sidebar:
         label_visibility="collapsed",
     )
 
-    st.session_state.page = selected_page
+    # =========================
+    # PAGE CHANGE
+    # =========================
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    if selected_page != st.session_state.page:
 
-    st.caption("Train smarter • Recover better")
+        st.session_state.page = selected_page
+
+        # AUTO CLOSE SIDEBAR
+        st.session_state.show_sidebar = False
+
+        st.rerun()
 
 page = st.session_state.page
 
