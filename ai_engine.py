@@ -151,7 +151,7 @@ You are an elite AI nutritionist,
 sports dietician, wellness expert,
 and recovery nutrition specialist.
 
-Create a STRICT personalized 7-day diet plan.
+Create a STRICT personalized 7-day nutrition plan.
 
 USER PROFILE:
 {profile}
