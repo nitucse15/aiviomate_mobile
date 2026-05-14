@@ -25,12 +25,9 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 
-# =========================
-# PAGE CONFIG (MUST BE FIRST)
-# =========================
 st.set_page_config(
     page_title="AIVioMate",
-    layout="wide",
+    layout="centered",
     initial_sidebar_state="collapsed",
 )
 
@@ -158,24 +155,29 @@ div[data-baseweb="select"] > div {
     border-radius: 12px !important;
 }
 /* =========================
-   MOBILE SIDEBAR FIX
+   SIDEBAR CONTROL FIX
 ========================= */
 
-div[data-testid="collapsedControl"] {
-    display: block !important;
-    position: fixed !important;
-    top: 72px !important;
-    left: 14px !important;
-    z-index: 999999 !important;
+button[kind="header"] {
     background: linear-gradient(90deg,#6366f1,#8b5cf6) !important;
-    border-radius: 12px !important;
-    padding: 6px 10px !important;
+    border-radius: 10px !important;
+    color: white !important;
 }
 
-div[data-testid="collapsedControl"] svg {
+button[kind="header"] svg {
     color: white !important;
-    width: 22px !important;
-    height: 22px !important;
+}
+
+/* mobile */
+@media (max-width: 768px) {
+
+    section[data-testid="stSidebar"] {
+        width: 280px !important;
+    }
+
+    .main .block-container {
+        padding-top: 4rem !important;
+    }
 }
 .card {
     background: rgba(255,255,255,0.06);
@@ -373,32 +375,6 @@ def extract_links(text):
     return re.findall(r"https?://[^\s]+", text)
 
 
-# =========================
-# MOBILE HEADER
-# =========================
-
-st.markdown(
-    """
-    <div style="
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-bottom:22px;
-    margin-top:8px;
-    padding-left:6px;
-    ">
-        <h1 style="
-        color:white;
-        margin:0;
-        font-size:32px;
-        font-weight:800;
-        ">
-        AIVioMate
-        </h1>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
 # =========================
 # MOBILE SIDEBAR
 # =========================
