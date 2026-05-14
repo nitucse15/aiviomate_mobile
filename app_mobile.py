@@ -683,6 +683,22 @@ def clean_html(text):
     return re.sub(r"<.*?>", "", str(text or "")).strip()
 
 
+def go_to_page(page_name):
+
+    st.session_state.page = page_name
+
+    st.markdown(
+        """
+        <script>
+        window.scrollTo(0, 0);
+        </script>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.rerun()
+
+
 def make_pdf_bytes(text, title="Report"):
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer)
@@ -929,6 +945,106 @@ nutrition, recovery & performance tracking.
 """,
         unsafe_allow_html=True,
     )
+    # =========================
+    # HOW TO USE APP
+    # =========================
+    with st.expander("✨ How To Use The App", expanded=False):
+        st.markdown(
+            """
+            <div style='font-size:15px;'>
+
+            <h4>👤 Step 1 — Complete Your Profile</h4>
+
+            Fill:
+
+            <ul>
+                <li>Age</li>
+                <li>Weight</li>
+                <li>Fitness Goal</li>
+                <li>Lifestyle</li>
+                <li>Activity Level</li>
+                <li>Illness</li>
+            </ul>
+
+            AI uses this data to personalize all recommendations.
+
+            <hr>
+
+            <h3>📊 Dashboard</h3>
+
+            Track:
+
+            <ul>
+                <li>Sleep</li>
+                <li>Stress</li>
+                <li>Hydration</li>
+                <li>Energy</li>
+                <li>Wellness Score</li>
+            </ul>
+
+            <p>
+            📈 Use Performance Analytics to track your wellness progress,
+            recovery trends and consistency over time.
+            </p>
+
+            <hr>
+
+            <h3>💪 Workout</h3>
+
+            Generate:
+
+            <ul>
+                <li>Fat loss plans</li>
+                <li>Running programs</li>
+                <li>Strength routines</li>
+                <li>Recovery workouts</li>
+            </ul>
+
+            <hr>
+
+            <h3>🥗 Nutrition</h3>
+
+            Get:
+
+            <ul>
+                <li>Personalized diets</li>
+                <li>Skin-focused nutrition</li>
+                <li>Cuisine-based meal plans</li>
+            </ul>
+
+            <hr>
+
+            <h3>🧘 Wellness</h3>
+
+            Get wellness guidance for:
+
+            <ul>
+                <li>Stress relief</li>
+                <li>Eye care</li>
+                <li>General supplements</li>
+                <li>Recovery habits</li>
+                <li>Daily wellness tips</li>
+            </ul>
+
+            <hr>
+
+            <h3>🤖 AI Coach</h3>
+
+            Ask questions anytime about:
+
+            <ul>
+                <li>Fitness</li>
+                <li>Recovery</li>
+                <li>Nutrition</li>
+                <li>Stress</li>
+            </ul>
+
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    st.markdown("<br>", unsafe_allow_html=True)
 
     st.markdown("### Basic Information")
 
@@ -1074,12 +1190,16 @@ nutrition, recovery & performance tracking.
     # =========================
     # NAVIGATION
     # =========================
-    col1, col2 = st.columns([5, 1])
+    st.markdown(
+        "<div style='height:25px'></div>",
+        unsafe_allow_html=True,
+    )
 
-    with col2:
+    left, middle, right = st.columns([1, 3, 1])
+
+    with right:
         if st.button("Next ➜"):
-            st.session_state.page = "Dashboard"
-            st.rerun()
+            go_to_page("Dashboard")
 
 # =========================
 # DASHBOARD PAGE
@@ -1088,6 +1208,7 @@ elif page == "Dashboard":
 
     st.markdown(f"# {st.session_state.page}")
 
+    import pandas as pd
     import plotly.express as px
     import plotly.graph_objects as go
     import random
@@ -1175,7 +1296,7 @@ movement and recovery daily.
                 "Sleep (hrs)",
                 0,
                 12,
-                st.session_state.get("sleep", 6),
+                st.session_state.get("sleep", 0),
             )
 
             st.session_state.sleep = sleep
@@ -1186,7 +1307,7 @@ movement and recovery daily.
                 "Stress",
                 0,
                 10,
-                st.session_state.get("stress", 4),
+                st.session_state.get("stress", 0),
             )
 
             st.session_state.stress = stress
@@ -1195,7 +1316,7 @@ movement and recovery daily.
             "Energy",
             0,
             10,
-            st.session_state.get("energy", 6),
+            st.session_state.get("energy", 0),
         )
 
         st.session_state.energy = energy
@@ -1399,20 +1520,231 @@ color:white;
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-    # =========================
-    # NAVIGATION
-    # =========================
-    col1, col2 = st.columns(2)
+        # =========================
+        # SMART TIPS
+        # =========================
+        st.markdown("### 💡 Smart Tips")
 
-    with col1:
-        if st.button("⬅ Back"):
-            st.session_state.page = "Profile"
+        tips = []
+
+        # =========================
+        # SLEEP TIPS
+        # =========================
+        if sleep > 0:
+
+            if sleep <= 4:
+                tips.append("😴 Very low sleep detected. Prioritize deep rest tonight.")
+
+            elif sleep < 6:
+                tips.append("🛌 Improve your sleep schedule for better recovery.")
+
+            elif sleep >= 8:
+                tips.append("🌙 Excellent sleep consistency today.")
+
+        # =========================
+        # STRESS TIPS
+        # =========================
+        if stress > 0:
+
+            if stress >= 8:
+                tips.append(
+                    "🧘 High stress detected. Try meditation or recovery activities."
+                )
+
+            elif stress >= 6:
+                tips.append("😌 Moderate stress levels detected today.")
+
+        # =========================
+        # ENERGY TIPS
+        # =========================
+        if energy > 0:
+
+            if energy <= 3:
+                tips.append("⚡ Low energy today. Focus on recovery.")
+
+            elif energy >= 8:
+                tips.append("🔥 Energy levels look excellent today.")
+
+        # =========================
+        # HYDRATION TIPS
+        # =========================
+        if st.session_state.water > 0:
+
+            if st.session_state.water <= 3:
+                tips.append("💧 Increase your water intake today.")
+
+            elif st.session_state.water < 6:
+                tips.append("🥤 Drink a little more water for optimal hydration.")
+
+            elif st.session_state.water >= 8:
+                tips.append("🚰 Great hydration consistency today.")
+
+        # =========================
+        # MOOD TIPS
+        # =========================
+        current_mood = st.session_state.get("mood")
+
+        if current_mood == "Low":
+            tips.append("❤️ Take some mental recovery time today.")
+
+        elif current_mood == "Good":
+            tips.append("💪 Positive mood detected. Keep it going.")
+
+        elif current_mood == "Great":
+            tips.append("🌟 Amazing emotional wellness today.")
+
+        # =========================
+        # DEFAULT MESSAGE
+        # =========================
+        if len(tips) == 0:
+
+            tips.append("📝 Complete your daily check-in to receive wellness insights.")
+
+        # =========================
+        # DISPLAY TIPS
+        # =========================
+        for tip in tips:
+
+            st.markdown(
+                f"""
+<div style="
+background:rgba(99,102,241,0.10);
+padding:14px;
+border-radius:12px;
+margin-bottom:10px;
+border:1px solid rgba(255,255,255,0.06);
+color:white;
+">
+{tip}
+</div>
+""",
+                unsafe_allow_html=True,
+            )
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # =========================
+        # ANALYTICS BUTTON
+        # =========================
+        if st.button("📈 Open Detailed Analytics Insights"):
+            st.session_state.show_analytics = True
             st.rerun()
 
-    with col2:
-        if st.button("Next ➜"):
-            st.session_state.page = "Workout"
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # =========================
+        # RESET BUTTON
+        # =========================
+        if st.button("🔄 Reset Daily Check-In"):
+            st.session_state["water"] = 0
+            st.session_state["sleep"] = 0
+            st.session_state["stress"] = 0
+            st.session_state["energy"] = 0
+            st.session_state["mood"] = None
             st.rerun()
+
+    # =====================================================
+    # ANALYTICS VIEW
+    # =====================================================
+    else:
+
+        if st.button("⬅ Back to Dashboard"):
+            st.session_state.show_analytics = False
+            st.rerun()
+
+        st.markdown("## 📊 Performance Insights")
+
+        st.caption("Monitor your wellness trends over time.")
+
+        # =========================
+        # ANALYTICS DATA
+        # =========================
+        if (
+            "analytics_data" not in st.session_state
+            or len(st.session_state.analytics_data) == 0
+        ):
+
+            st.session_state.analytics_data = []
+
+            base_date = datetime.datetime.now()
+
+            for i in range(14):
+
+                st.session_state.analytics_data.append(
+                    {
+                        "date": base_date - datetime.timedelta(days=13 - i),
+                        "sleep": random.randint(5, 9),
+                        "stress": random.randint(2, 8),
+                        "energy": random.randint(4, 10),
+                        "water": random.randint(3, 8),
+                        "wellness_score": random.randint(55, 95),
+                    }
+                )
+
+        df = pd.DataFrame(st.session_state.analytics_data)
+
+        df["date"] = pd.to_datetime(df["date"])
+
+        metrics = [
+            ("sleep", "😴 Sleep Trend"),
+            ("stress", "🧘 Stress Trend"),
+            ("energy", "⚡ Energy Trend"),
+            ("water", "💧 Hydration Trend"),
+            ("wellness_score", "🚀 Wellness Score"),
+        ]
+
+        for metric, title in metrics:
+
+            st.markdown(f"## {title}")
+
+            fig = px.line(
+                df,
+                x="date",
+                y=metric,
+                markers=True,
+            )
+
+            fig.update_traces(
+                line=dict(
+                    color="#38bdf8",
+                    width=3,
+                ),
+                marker=dict(
+                    size=7,
+                    color="#38bdf8",
+                ),
+            )
+
+            fig.update_layout(
+                paper_bgcolor="#07122b",
+                plot_bgcolor="#0b1736",
+                font=dict(color="white"),
+                height=320,
+                margin=dict(
+                    l=20,
+                    r=20,
+                    t=20,
+                    b=20,
+                ),
+                xaxis=dict(
+                    showgrid=False,
+                    color="#cbd5e1",
+                ),
+                yaxis=dict(
+                    gridcolor="rgba(255,255,255,0.12)",
+                    zeroline=False,
+                    color="#cbd5e1",
+                ),
+            )
+
+            st.plotly_chart(
+                fig,
+                use_container_width=True,
+                config={"displayModeBar": False},
+            )
+
+            st.markdown("<br>", unsafe_allow_html=True)
+
 # =========================
 # WORKOUT PAGE
 # =========================
@@ -1628,17 +1960,20 @@ line-height:1.8;
 
         st.info("No workout history yet.")
 
-    col1, col2 = st.columns(2)
+    st.markdown(
+        "<div style='height:25px'></div>",
+        unsafe_allow_html=True,
+    )
 
-    with col1:
+    left, middle, right = st.columns([1, 3, 1])
+
+    with left:
         if st.button("⬅ Back"):
-            st.session_state.page = "Dashboard"
-            st.rerun()
+            go_to_page("Dashboard")
 
-    with col2:
+    with right:
         if st.button("Next ➜"):
-            st.session_state.page = "Nutrition"
-            st.rerun()
+            go_to_page("Nutrition")
 # =========================
 # NUTRITION PAGE
 # =========================
@@ -1879,17 +2214,20 @@ line-height:1.8;
 
         st.info("No nutrition history yet.")
 
-    col1, col2 = st.columns(2)
+    st.markdown(
+        "<div style='height:25px'></div>",
+        unsafe_allow_html=True,
+    )
 
-    with col1:
+    left, middle, right = st.columns([1, 3, 1])
+
+    with left:
         if st.button("⬅ Back"):
-            st.session_state.page = "Workout"
-            st.rerun()
+            go_to_page("Workout")
 
-    with col2:
+    with right:
         if st.button("Next ➜"):
-            st.session_state.page = "Coach"
-            st.rerun()
+            go_to_page("Coach")
 
 # =========================
 # COACH PAGE
@@ -2249,16 +2587,20 @@ Your AI companion for workouts, nutrition, recovery & wellness guidance.
     # =========================
     # NAVIGATION
     # =========================
-    col1, col2 = st.columns(2)
+    st.markdown(
+        "<div style='height:25px'></div>",
+        unsafe_allow_html=True,
+    )
 
-    with col1:
+    left, middle, right = st.columns([1, 3, 1])
+
+    with left:
         if st.button("⬅ Back"):
-            st.session_state.page = "Nutrition"
-            st.rerun()
+            go_to_page("Nutrition")
 
-    with col2:
+    with right:
         if st.button("Next ➜"):
-            st.session_state.page = "Wellness"
+            go_to_page("Wellness")
             st.rerun()
 # =========================
 # WELLNESS PAGE
@@ -2565,9 +2907,13 @@ Improve recovery, reduce stress and build
     # =========================
     # NAVIGATION
     # =========================
-    col1, col2 = st.columns([1, 5])
+    st.markdown(
+        "<div style='height:25px'></div>",
+        unsafe_allow_html=True,
+    )
 
-    with col1:
+    left, middle, right = st.columns([1, 3, 1])
+
+    with left:
         if st.button("⬅ Back"):
-            st.session_state.page = "Coach"
-            st.rerun()
+            go_to_page("Coach")
