@@ -1642,6 +1642,16 @@ color:white;
             st.session_state["energy"] = 0
             st.session_state["mood"] = None
             st.rerun()
+        left, middle, right = st.columns([1, 3, 1])
+
+        with left:
+            if st.button("⬅ Back"):
+                go_to_page("Profile")
+
+        with right:
+            if st.button("Next ➜"):
+                go_to_page("Workout")
+                st.rerun()
 
     # =====================================================
     # ANALYTICS VIEW
