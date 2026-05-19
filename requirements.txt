@@ -4,4 +4,4 @@ pandas
 plotly
 reportlab
 python-dotenv
-cv2
+
