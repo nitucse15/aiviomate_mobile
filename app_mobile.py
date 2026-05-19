@@ -4,7 +4,6 @@ import json
 import time
 from io import BytesIO
 from datetime import date
-import cv2
 import streamlit as st
 import numpy as np
 import pandas as pd
